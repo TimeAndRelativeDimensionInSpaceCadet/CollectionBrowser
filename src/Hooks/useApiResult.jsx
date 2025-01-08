@@ -8,10 +8,9 @@ const useApiResult = request => {
     var [url, options] = request;
     fetch(url, options)
       .then(async response => {
-        console.log('.then');
+        console.log('.then', request);
         if (response.ok) {
-          const result = await response.json();
-          setResults(result);
+          setResults(await response.json());
           setError(null);
         } else {
           setError(await response.text());
