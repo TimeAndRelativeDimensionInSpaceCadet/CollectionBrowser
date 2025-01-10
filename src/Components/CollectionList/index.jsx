@@ -5,13 +5,13 @@ import './CollectionList.css';
 
 export const CollectionList = () => {
   const [collection, loading, error] = useCollection();
-  const collectionContainer = useRef(null);  
+  const collectionContainer = useRef(null);
 
   return (
     <>
       {collection && !error && (
         <div className="collection-container" ref={collectionContainer}>
-          {collection.releases.map((e, i) => (
+          {collection.map((e, i) => (
             <CollectionItem key={i} itemInfo={e.basic_information} containerRef={collectionContainer} />
           ))}
         </div>
