@@ -1,19 +1,29 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef } from 'react';
 import './CollectionItem.css';
 
-export const CollectionItem = ({ itemInfo }) => {
+export const CollectionItem = ({ itemInfo, containerRef = null }) => {
   const card = useRef(null);
 
-  /* const handleOtherCardClicked = useCallback()
-  useEffect(() => {
-
-  }, []) */
   const handleClick = () => {
     const { current: item } = card;
+
+    updateFlippedSibling(item);
 
     item.classList.contains('flipped')
       ? item.classList.remove('flipped')
       : item.classList.add('flipped');
+  };
+
+  const updateFlippedSibling = currentItem => {
+    const { current: container } = containerRef;
+
+    if (container) {
+      Array.from(container.children).forEach(element => {
+        element.classList.contains('flipped') &&
+          element != currentItem &&
+          element.classList.remove('flipped');
+      });
+    }
   };
 
   return (

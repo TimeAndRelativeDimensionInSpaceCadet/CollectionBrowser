@@ -1,26 +1,18 @@
+import { useRef } from 'react';
 import useCollection from '../../Hooks/useCollection';
 import { CollectionItem } from '../CollectionItem';
+import './CollectionList.css';
 
 export const CollectionList = () => {
   const [collection, loading, error] = useCollection();
+  const collectionContainer = useRef(null);  
+
   return (
     <>
       {collection && !error && (
-        <div
-          style={{
-            padding: '0 10px',
-            maxWidth: '75%',
-            display: 'grid',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-            height: '100vh',
-            gridGap: '10px',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-            gridAutoRows: 'minmax(250px, 1fr)',
-          }}
-        >
+        <div className="collection-container" ref={collectionContainer}>
           {collection.releases.map((e, i) => (
-            <CollectionItem key={i} itemInfo={e.basic_information} />
+            <CollectionItem key={i} itemInfo={e.basic_information} containerRef={collectionContainer} />
           ))}
         </div>
       )}
