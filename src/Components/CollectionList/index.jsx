@@ -10,11 +10,15 @@ export const CollectionList = () => {
   return (
     <>
       {collection && !error && (
-        <div className="collection-container" ref={collectionContainer}>
-          {collection.map((e, i) => (
-            <CollectionItem key={i} itemInfo={e.basic_information} containerRef={collectionContainer} />
-          ))}
-        </div>
+        <>          
+          {/* <button onClick={() => collection && 
+            collection.sort((e, a) => e.title > a.title ? 1 : -1)}>Sort By Title</button> */}
+          <div className="collection-container" ref={collectionContainer}>
+            {collection.map((e, i) => (
+              <CollectionItem key={i} itemInfo={e.basic_information} containerRef={collectionContainer} />
+            ))}
+          </div>
+        </>
       )}
       {error && <div>oops :&#x28;</div>}
       {loading && <div>...loading</div>}
