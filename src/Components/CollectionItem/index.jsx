@@ -8,7 +8,7 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     const { current: item } = card;
 
     updateFlippedSibling(item);
-    console.log(itemInfo);
+
     item.classList.contains('flipped')
       ? item.classList.remove('flipped')
       : item.classList.add('flipped');
