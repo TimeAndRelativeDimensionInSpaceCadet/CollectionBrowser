@@ -8,7 +8,7 @@ export const CollectionList = () => {
   const collectionContainer = useRef(null);
 
   return (
-    <>
+    <div className="container-outer">
       {collection && !error && (
         <>          
           {/* <button onClick={() => collection && 
@@ -22,6 +22,6 @@ export const CollectionList = () => {
       )}
       {error && <div>oops :&#x28;</div>}
       {loading && <div>...loading</div>}
-    </>
+    </div>
   );
 };

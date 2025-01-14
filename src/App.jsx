@@ -1,14 +1,13 @@
-import './App.css';
-import { CollectionList } from './Components/CollectionList';
+import { CollectionList } from './Components/CollectionList'
+import './App.css'
 
 function App() {
+
   return (
-    <div className="App">
-      <div className="App-header">
-        <CollectionList />
-      </div>
-    </div>
-  );
+    <>
+      <CollectionList />
+    </>
+  )
 }
 
-export default App;
+export default App
