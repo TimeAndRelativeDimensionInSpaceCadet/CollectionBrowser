@@ -9,11 +9,3 @@
   grid-auto-rows: 1fr;
   flex-grow: 1;
 }
-
-.container-outer {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

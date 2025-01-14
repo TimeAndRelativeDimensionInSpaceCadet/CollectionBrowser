@@ -8,20 +8,24 @@ export const CollectionList = () => {
   const collectionContainer = useRef(null);
 
   return (
-    <div className="container-outer">
+    <>
       {collection && !error && (
-        <>          
+        <>
           {/* <button onClick={() => collection && 
             collection.sort((e, a) => e.title > a.title ? 1 : -1)}>Sort By Title</button> */}
           <div className="collection-container" ref={collectionContainer}>
             {collection.map((e, i) => (
-              <CollectionItem key={i} itemInfo={e.basic_information} containerRef={collectionContainer} />
+              <CollectionItem
+                key={i}
+                itemInfo={e.basic_information}
+                containerRef={collectionContainer}
+              />
             ))}
           </div>
         </>
       )}
       {error && <div>oops :&#x28;</div>}
       {loading && <div>...loading</div>}
-    </div>
+    </>
   );
 };
