@@ -5,6 +5,7 @@ import { makeCollectionRequest } from '../Util/apiUtil';
 const useCollection = () => {
   const [collection, setCollection] = useState(null);
   const [loading, setIsLoading] = useState(false);
+
   const fetchRecords = async ({ pageParam }) => {
     const { url, options } = makeCollectionRequest(pageParam);
 
