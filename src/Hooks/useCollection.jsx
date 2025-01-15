@@ -17,9 +17,9 @@ const useCollection = () => {
   };
 
   const getNextPageNumber = lastPage => {
-    let { page: currentPage } = lastPage.pagination;
+    let { page: currentPage = 0, pages = 0 } = lastPage?.pagination;
 
-    return ++currentPage <= lastPage.pagination.pages ? currentPage : null;
+    return ++currentPage <= pages ? currentPage : null;
   };
 
   const {
@@ -35,7 +35,7 @@ const useCollection = () => {
     queryFn: fetchRecords,
     initialPageParam: 1,
     getNextPageParam: getNextPageNumber,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -50,7 +50,6 @@ const useCollection = () => {
 
   useEffect(() => {
     setIsLoading(status === 'pending' || isFetching);
-    console.log(isFetching, status);
   }, [isFetching, status]);
 
   return {

@@ -49,4 +49,12 @@
   display: flex;
   flex-flow: column;
   justify-content: center;
+  align-content: space-between;
+}
+
+.artist-header {
+  padding: 10px;
+  font-size: 1.25rem;
+  font-weight: bolder;
+  word-wrap: break-word;
 }

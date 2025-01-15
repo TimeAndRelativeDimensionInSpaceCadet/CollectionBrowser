@@ -26,9 +26,10 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     }
   };
 
-  const formatArtist = () => 
+  const formatArtist = () =>
     itemInfo.artists
-      .map(e => e.name.replace(new RegExp(/ \(\d+\)/gm), "")).join(' and ');
+      .map(e => e.name.replace(new RegExp(/ \(\d+\)/gm), ''))
+      .join(', ');
 
   const formatGenres = () => itemInfo.genres.join(', ');
 
@@ -39,22 +40,10 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
           <img src={itemInfo.cover_image} alt="cover art" />
         </div>
         <div className="flip-card-back">
-          <div
-            style={{
-              padding: '10px 10px',
-              fontSize: '1.25rem',
-              fontWeight: 'bolder',
-            }}
-          >
-            {itemInfo.title}
-          </div>
-          <div style={{ padding: '4px' }}>by</div>
-          <div style={{ padding: '4px', fontStyle: 'italic' }}>
-            {formatArtist()}
-          </div>
-          <div style={{ padding: '2rem 10px', marginTop: 'auto' }}>
-            {formatGenres()}
-          </div>
+          <div className="artist-header">{itemInfo.title}</div>
+          <div>by</div>
+          <em>{formatArtist()}</em>
+          <div style={{ padding: '2rem 6px' }}>{formatGenres()}</div>
         </div>
       </div>
     </div>
