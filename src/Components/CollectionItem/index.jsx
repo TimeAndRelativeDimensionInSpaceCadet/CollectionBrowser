@@ -18,7 +18,7 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     const { current: container } = containerRef;
 
     if (container) {
-      Array.from(container.children).forEach(element => {
+      [...container.children].forEach(element => {
         element.classList.contains('flipped') &&
           element !== currentItem &&
           element.classList.remove('flipped');
@@ -26,7 +26,9 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     }
   };
 
-  const formatArtist = () => itemInfo.artists.map(e => e.name).join(' and ');
+  const formatArtist = () => 
+    itemInfo.artists
+      .map(e => e.name.replace(new RegExp(/ \(\d+\)/gm), "")).join(' and ');
 
   const formatGenres = () => itemInfo.genres.join(', ');
 

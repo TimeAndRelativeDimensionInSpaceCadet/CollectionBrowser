@@ -35,6 +35,8 @@ const useCollection = () => {
     queryFn: fetchRecords,
     initialPageParam: 1,
     getNextPageParam: getNextPageNumber,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   const getCollection = useMemo(
@@ -48,6 +50,7 @@ const useCollection = () => {
 
   useEffect(() => {
     setIsLoading(status === 'pending' || isFetching);
+    console.log(isFetching, status);
   }, [isFetching, status]);
 
   return {
