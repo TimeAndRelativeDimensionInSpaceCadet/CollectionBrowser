@@ -1,39 +1,63 @@
 import { useMemo, useEffect, useState } from 'react';
-import useApiResult from './useApiResult';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
-import { DEFAULT_HEADERS } from '../Util/apiUtil';
 
 const useCollection = () => {
-  const collectionRequest = useMemo(makeCollectionRequest, []);
-  const [result, loading, error] = useApiResult(collectionRequest);
+  const [collection, setCollection] = useState(null);
+  const [loading, setIsLoading] = useState(false);
+  const fetchRecords = async ({ pageParam }) => {
+    const { url, options } = makeCollectionRequest(pageParam);
 
-  const [isStillLoading, setIsStillLoading] = useState(loading);
-  const [wholeCollection, setWholeCollection] = useState(null);
-  const [hasError, setHasError] = useState(error);
+    return await fetch(url, options).then(async response => {
+      if (response.ok) {
+        return await response.json();
+      }
+      return new Error(response?.statusText ?? '');
+    });
+  };
+
+  const getNextPageNumber = lastPage => {
+    let { page: currentPage } = lastPage.pagination;
+
+    return ++currentPage <= lastPage.pagination.pages ? currentPage : null;
+  };
+
+  const {
+    status,
+    data,
+    isFetching,
+    isFetchingNextPage,
+    error,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['records'],
+    queryFn: fetchRecords,
+    initialPageParam: 1,
+    getNextPageParam: getNextPageNumber,
+  });
+
+  const getCollection = useMemo(
+    () => data?.pages.flatMap(e => e.releases),
+    [data]
+  );
 
   useEffect(() => {
-    if (result) {
-      setIsStillLoading(true);
-      const pagesArr = Array(result.pagination.pages - 1).fill(0);
-      Promise.all(
-        pagesArr.map(_ =>
-          fetch(result.pagination.urls.next, {
-            headers: DEFAULT_HEADERS,
-          })
-            .then(async e => await e.json())
-            .catch(e => setHasError(e.message))
-        )
-      ).then(e => {
-        var wholeCollection = e.flatMap(response =>
-          result.releases.concat(response.releases)
-        );
-        setWholeCollection(wholeCollection);
-        setIsStillLoading(false);
-      });
-    }
-  }, [result]);
+    if (getCollection) setCollection(getCollection);
+  }, [getCollection]);
 
-  return [wholeCollection, isStillLoading, hasError ];
+  useEffect(() => {
+    setIsLoading(status === 'pending' || isFetching);
+  }, [isFetching, status]);
+
+  return {
+    collection,
+    loading,
+    isFetchingNextPage,
+    error,
+    hasNextPage,
+    fetchNextPage,
+  };
 };
 
 export default useCollection;
