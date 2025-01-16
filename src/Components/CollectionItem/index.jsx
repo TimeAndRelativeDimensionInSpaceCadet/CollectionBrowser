@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import './CollectionItem.css';
+import { ImageWithSkeleton } from '../ImageWithSkeleton';
 
 export const CollectionItem = ({ itemInfo, containerRef = null }) => {
   const card = useRef(null);
@@ -26,23 +27,27 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     }
   };
 
-  const formatArtist = () =>
-    itemInfo.artists
-      .map(e => e.name.replace(new RegExp(/ \(\d+\)/gm), ''))
-      .join(', ');
+  const formatArtist = useMemo(
+    () =>
+      itemInfo.artists
+        .map(e => e.name.replace(new RegExp(/\W?\(\d+\)/g), ''))
+        .join(', '),
+    [itemInfo]
+  );
 
   const formatGenres = () => itemInfo.genres.join(', ');
 
   return (
-    <div className="flip-card" ref={card} onClick={handleClick}>
-      <div className="flip-card-inner">
-        <div className="flip-card-front">
-          <img src={itemInfo.cover_image} alt="cover art" />
+    <div className="flip-card rounded" ref={card} onClick={handleClick}>
+      <div className="flip-card-inner rounded">
+        <div className="flip-card-front rounded">
+          {/* <img src={itemInfo.cover_image} alt="cover art" /> */}
+          <ImageWithSkeleton src={itemInfo.cover_image} />
         </div>
-        <div className="flip-card-back">
+        <div className="flip-card-back rounded">
           <div className="artist-header">{itemInfo.title}</div>
           <div>by</div>
-          <em>{formatArtist()}</em>
+          <em>{formatArtist}</em>
           <div style={{ padding: '2rem 6px' }}>{formatGenres()}</div>
         </div>
       </div>
