@@ -38,13 +38,16 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
   const formatGenres = () => itemInfo.genres.join(', ');
 
   return (
-    <div className="flip-card rounded" ref={card} onClick={handleClick}>
-      <div className="flip-card-inner rounded">
-        <div className="flip-card-front rounded">
-          {/* <img src={itemInfo.cover_image} alt="cover art" /> */}
+    <div
+      className="flip-card rounded [&_*]:rounded-md"
+      ref={card}
+      onClick={handleClick}
+    >
+      <div className="flip-card-inner">
+        <div className="flip-card-front">
           <ImageWithSkeleton src={itemInfo.cover_image} />
         </div>
-        <div className="flip-card-back rounded">
+        <div className="flip-card-back">
           <div className="artist-header">{itemInfo.title}</div>
           <div>by</div>
           <em>{formatArtist}</em>
