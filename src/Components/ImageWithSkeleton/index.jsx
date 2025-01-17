@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ImageSkeleton } from '../Skeleton';
 
-export const ImageWithSkeleton = props => {
+export const ImageWithSkeleton = ({ className, ...props }) => {
   const [loading, setLoading] = useState(true);
 
   const handleLoad = () => {
@@ -11,7 +11,11 @@ export const ImageWithSkeleton = props => {
   return (
     <>
       {loading && <ImageSkeleton />}
-      <img className={loading && 'hidden'} {...props} onLoad={handleLoad} />
+      <img
+        className={className.concat(loading ? ' hidden' : '')}
+        {...props}
+        onLoad={handleLoad}
+      />
     </>
   );
 };

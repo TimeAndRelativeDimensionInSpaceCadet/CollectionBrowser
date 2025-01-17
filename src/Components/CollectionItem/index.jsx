@@ -39,13 +39,17 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
 
   return (
     <div
-      className="flip-card rounded [&_*]:rounded-md"
+      className="relative aspect-square perspective-far cursor-pointer all-descendents:rounded-md"
       ref={card}
       onClick={handleClick}
     >
-      <div className="flip-card-inner">
+      <div className="relative w-full h-full transition-transform duration-700 transform-style-3d">
         <div className="flip-card-front">
-          <ImageWithSkeleton src={itemInfo.cover_image} alt="album cover art" />
+          <ImageWithSkeleton
+            className="w-full h-full"
+            src={itemInfo.cover_image}
+            alt="album cover art"
+          />
         </div>
         <div className="flip-card-back">
           <div className="artist-header">{itemInfo.title}</div>
