@@ -45,7 +45,7 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     >
       <div className="flip-card-inner">
         <div className="flip-card-front">
-          <ImageWithSkeleton src={itemInfo.cover_image} />
+          <ImageWithSkeleton src={itemInfo.cover_image} alt="album cover art" />
         </div>
         <div className="flip-card-back">
           <div className="artist-header">{itemInfo.title}</div>

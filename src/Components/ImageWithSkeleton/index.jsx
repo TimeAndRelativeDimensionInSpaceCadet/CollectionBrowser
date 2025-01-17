@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ImageSkeleton } from '../Skeleton';
 
-export const ImageWithSkeleton = ({ src }) => {
+export const ImageWithSkeleton = ({ src, alt }) => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
@@ -12,7 +12,5 @@ export const ImageWithSkeleton = ({ src }) => {
     }
   }, [src]);
 
-  return (
-    <>{!image ? <ImageSkeleton /> : <img src={image.src} alt="cover-art" />}</>
-  );
+  return <>{!image ? <ImageSkeleton /> : <img src={image.src} alt={alt} />}</>;
 };
