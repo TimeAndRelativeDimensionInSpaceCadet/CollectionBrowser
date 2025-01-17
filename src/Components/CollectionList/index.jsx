@@ -22,6 +22,7 @@ export const CollectionList = () => {
     ) {
       !isFetchingNextPage && (await fetchNextPage());
     }
+    console.log(props);
   };
 
   return (

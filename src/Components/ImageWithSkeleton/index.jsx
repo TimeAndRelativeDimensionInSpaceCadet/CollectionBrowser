@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ImageSkeleton } from '../Skeleton';
 
-export const ImageWithSkeleton = ({ src, alt }) => {
-  const [image, setImage] = useState(null);
+export const ImageWithSkeleton = props => {
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (src) {
-      const img = new Image();
-      img.onload = () => setTimeout(() => setImage(img), 500);
-      img.src = src;
-    }
-  }, [src]);
+  const handleLoad = () => {
+    setTimeout(() => setLoading(false), 500);
+  };
 
-  return <>{!image ? <ImageSkeleton /> : <img src={image.src} alt={alt} />}</>;
+  return (
+    <>
+      {loading && <ImageSkeleton />}
+      <img className={loading && 'hidden'} {...props} onLoad={handleLoad} />
+    </>
+  );
 };
