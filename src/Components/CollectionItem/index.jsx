@@ -49,10 +49,10 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
             <div className="text-xl break-words font-semibold">
               {itemInfo.title}
             </div>
-            <div class="my-2">by</div>
+            <div className="my-2">by</div>
             {formatArtist}
           </div>
-          <div class="pb-8">{formatGenres()}</div>
+          <div className="pb-8">{formatGenres()}</div>
         </div>
       </div>
     </div>
