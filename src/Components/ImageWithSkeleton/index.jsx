@@ -12,7 +12,7 @@ export const ImageWithSkeleton = ({ className, ...props }) => {
     <>
       {loading && <ImageSkeleton />}
       <img
-        className={className.concat(loading ? ' hidden' : '')}
+        className={(className ?? '').concat(loading ? ' hidden' : '')}
         {...props}
         onLoad={handleLoad}
       />

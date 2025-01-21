@@ -43,19 +43,17 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
       ref={card}
       onClick={handleClick}
     >
-      <div className="relative w-full h-full transition-transform duration-700 transform-style-3d">
-        <div className="flip-card-front">
-          <ImageWithSkeleton
-            className="w-full h-full"
-            src={itemInfo.cover_image}
-            alt="album cover art"
-          />
-        </div>
-        <div className="flip-card-back">
-          <div className="artist-header">{itemInfo.title}</div>
-          <div>by</div>
-          <em>{formatArtist}</em>
-          <div style={{ padding: '2rem 6px' }}>{formatGenres()}</div>
+      <div className="relative size-full transition-transform duration-700 transform-style-3d children:size-full children:absolute children:backface-hidden">
+        <ImageWithSkeleton src={itemInfo.cover_image} alt="album cover art" />
+        <div className="p-4 transform-flip-y bg-slate-500 text-white flex flex-col justify-between antialiased">
+          <div>
+            <div className="text-xl break-words font-semibold">
+              {itemInfo.title}
+            </div>
+            <div class="my-2">by</div>
+            {formatArtist}
+          </div>
+          <div class="pb-8">{formatGenres()}</div>
         </div>
       </div>
     </div>

@@ -15,11 +15,21 @@ export default {
         '.transform-style-3d': {
           transformStyle: 'preserve-3d',
         },
+        '.backface-hidden': {
+          backfaceVisibility: 'hidden',
+          '-webkit-backface-visibility': 'hidden',
+        },
+        '.transform-flip-y': {
+          transform: 'rotateY(180deg)'
+        }
       });
       addVariant('all-descendents', '& *');
+      addVariant('children', '& > *');
       addComponents({
-        '.flipped > div': {
-          transform: 'rotateY(180deg)',
+        '.flipped': {
+          '& > div': {
+            transform: 'rotateY(180deg)',
+          },
         },
       });
     }),
