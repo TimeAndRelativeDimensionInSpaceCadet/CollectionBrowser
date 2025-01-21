@@ -1,5 +1,4 @@
 import { useRef, useMemo } from 'react';
-import './CollectionItem.css';
 import { ImageWithSkeleton } from '../ImageWithSkeleton';
 
 export const CollectionItem = ({ itemInfo, containerRef = null }) => {
