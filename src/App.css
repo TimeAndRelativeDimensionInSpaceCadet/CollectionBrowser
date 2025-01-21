@@ -6,10 +6,6 @@
   text-align: center;
 }
 
-#root * * {
-  box-sizing: border-box;
-}
-
 .app-container {
   height: 100%;
   width: 100%;
@@ -17,8 +13,4 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-body {
-  overflow: hidden;
 }
