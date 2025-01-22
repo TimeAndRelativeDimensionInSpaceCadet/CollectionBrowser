@@ -26,11 +26,11 @@ export const CollectionList = () => {
 
   return (
     <>
-      <div
-        className="size-full max-w-screen-xl overflow-y-auto overflow-x-hidden"
-        onScroll={handleScroll}
-      >
-        {collection && !error && (
+      {collection && !error && (
+        <div
+          className="size-full overflow-y-auto overflow-x-hidden"
+          onScroll={handleScroll}
+        >
           <div className="pb-3">
             <ControlBar />
             <div
@@ -46,8 +46,8 @@ export const CollectionList = () => {
               ))}
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       {error && <div>oops :&#x28;</div>}
       {loading && <div>...loading</div>}
     </>
