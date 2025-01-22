@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import useCollection from '../../Hooks/useCollection';
 import { CollectionItem } from '../CollectionItem';
-import { ControlBar } from '../ControlBar';
 
 export const CollectionList = () => {
   const {
@@ -26,7 +25,6 @@ export const CollectionList = () => {
 
   return (
     <>
-      {/* <ControlBar /> */}
       {collection && !error && (
         <div
           className="size-full grid grid-cols-auto-fit-250 gap-3 overflow-y-auto overflow-x-hidden p-3"
