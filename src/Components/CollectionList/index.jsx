@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import useCollection from '../../Hooks/useCollection';
 import { CollectionItem } from '../CollectionItem';
+import { ControlBar } from '../ControlBar';
 
 export const CollectionList = () => {
   const {
@@ -25,21 +26,28 @@ export const CollectionList = () => {
 
   return (
     <>
-      {collection && !error && (
-        <div
-          className="size-full grid grid-cols-auto-fit-250 gap-3 overflow-y-auto overflow-x-hidden p-3"
-          ref={collectionContainer}
-          onScroll={handleScroll}
-        >
-          {collection.map((e, i) => (
-            <CollectionItem
-              key={i}
-              itemInfo={e.basic_information}
-              containerRef={collectionContainer}
-            />
-          ))}
-        </div>
-      )}
+      <div
+        className="size-full max-w-screen-xl overflow-y-auto overflow-x-hidden"
+        onScroll={handleScroll}
+      >
+        {collection && !error && (
+          <div className="pb-3">
+            <ControlBar />
+            <div
+              className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-3"
+              ref={collectionContainer}
+            >
+              {collection.map((e, i) => (
+                <CollectionItem
+                  key={i}
+                  itemInfo={e.basic_information}
+                  containerRef={collectionContainer}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
       {error && <div>oops :&#x28;</div>}
       {loading && <div>...loading</div>}
     </>
