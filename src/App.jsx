@@ -3,6 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { apiClient } from './Util/apiClient';
 import './App.css';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ControlBar } from './Components/ControlBar';
 
 function App() {
   return (
