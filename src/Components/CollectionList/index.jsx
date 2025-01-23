@@ -15,7 +15,7 @@ export const CollectionList = () => {
   } = useCollection();
   const collectionContainer = useRef(null);
 
-  const { searchResults, handleSearchResults, clearSearchResults } =
+  const { searchResults, handleSearchResults } =
     useCollectionSearch(collection);
 
   const handleScroll = async ({ target: container }) => {
@@ -29,7 +29,10 @@ export const CollectionList = () => {
   };
 
   const handleCollectionItemMap = useMemo(() => {
-    const toUse = searchResults ? searchResults : collection;
+    const toUse =
+      searchResults
+        ? searchResults
+        : collection;
 
     return toUse?.map((e, i) => (
       <CollectionItem

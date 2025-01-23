@@ -10,6 +10,10 @@ export const useCollectionSearch = (externalCollection = null) => {
 
   const handleSearchResults = useCallback(
     query => {
+      if (query === '') {
+        setSearchResults(null);
+        return;
+      }
       if (collection) {
         const filteredCollection = collection.filter(e => {
           const artists = e.basic_information.artists
@@ -25,11 +29,8 @@ export const useCollectionSearch = (externalCollection = null) => {
     [collection]
   );
 
-  const clearSearchResults = () => setSearchResults(null);
-
   return {
     searchResults,
     handleSearchResults,
-    clearSearchResults,
   };
 };
