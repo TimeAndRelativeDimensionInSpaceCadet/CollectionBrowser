@@ -8,6 +8,11 @@ export const useCollectionSearch = (externalCollection = null) => {
     if (externalCollection) setCollection(externalCollection);
   }, [externalCollection]);
 
+  const getArtistsFromInfo = artists =>
+    artists.map(a => a.name.toLowerCase()).join('');
+
+  const getGenresFromInfo = genres => genres.map(e => e.toLowerCase()).join('');
+
   const handleSearchResults = useCallback(
     query => {
       if (query === '') {
@@ -15,13 +20,18 @@ export const useCollectionSearch = (externalCollection = null) => {
         return;
       }
       if (collection) {
-        const filteredCollection = collection.filter(e => {
-          const artists = e.basic_information.artists
-            .map(a => a.name.toLowerCase())
-            .join('');
-          const hasQuery = artists.includes(query);
-          return hasQuery;
-        });
+        const filteredCollection = collection.filter(
+          ({ basic_information: info }) => {
+            const { artists, title, genres } = info;
+            const hasQuery = [
+              getArtistsFromInfo(artists),
+              getGenresFromInfo(genres),
+              title.toLowerCase(),
+            ].some(queryable => queryable.includes(query));
+
+            return hasQuery;
+          }
+        );
 
         setSearchResults(filteredCollection);
       }
