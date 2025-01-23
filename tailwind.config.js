@@ -23,7 +23,7 @@ export default {
           transform: 'rotateY(180deg)',
         },
         '.grid-cols-auto-fit-250': {
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
         },
       });
       addVariant('all-descendents', '& *');

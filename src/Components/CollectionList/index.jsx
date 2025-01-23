@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import useCollection from '../../Hooks/useCollection';
+import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
 import { CollectionItem } from '../CollectionItem';
 import { ControlBar } from '../ControlBar';
 
@@ -14,6 +15,9 @@ export const CollectionList = () => {
   } = useCollection();
   const collectionContainer = useRef(null);
 
+  const { searchResults, handleSearchResults, clearSearchResults } =
+    useCollectionSearch(collection);
+
   const handleScroll = async ({ target: container }) => {
     if (
       Math.ceil(container.scrollHeight - container.scrollTop) ===
@@ -24,6 +28,18 @@ export const CollectionList = () => {
     }
   };
 
+  const handleCollectionItemMap = useMemo(() => {
+    const toUse = searchResults ? searchResults : collection;
+
+    return toUse?.map((e, i) => (
+      <CollectionItem
+        key={i}
+        itemInfo={e.basic_information}
+        containerRef={collectionContainer}
+      />
+    ));
+  }, [collection, searchResults]);
+
   return (
     <>
       {collection && !error && (
@@ -31,19 +47,13 @@ export const CollectionList = () => {
           className="size-full overflow-y-auto overflow-x-hidden"
           onScroll={handleScroll}
         >
-          <div className="pb-3">
-            <ControlBar />
+          <div className="px-1 pb-3">
+            <ControlBar onSearch={handleSearchResults} />
             <div
-              className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-3"
+              className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-2"
               ref={collectionContainer}
             >
-              {collection.map((e, i) => (
-                <CollectionItem
-                  key={i}
-                  itemInfo={e.basic_information}
-                  containerRef={collectionContainer}
-                />
-              ))}
+              {handleCollectionItemMap}
             </div>
           </div>
         </div>
