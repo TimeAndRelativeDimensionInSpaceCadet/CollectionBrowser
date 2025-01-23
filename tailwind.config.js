@@ -4,7 +4,12 @@ const plugin = require('tailwindcss/plugin');
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        'ch-12': '12ch',
+        'ch-20': '20ch',
+      },
+    },
   },
   plugins: [
     plugin(function ({ addUtilities, addVariant, addComponents }) {

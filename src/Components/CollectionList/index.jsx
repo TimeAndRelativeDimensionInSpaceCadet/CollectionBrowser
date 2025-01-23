@@ -28,11 +28,8 @@ export const CollectionList = () => {
     }
   };
 
-  const handleCollectionItemMap = useMemo(() => {
-    const toUse =
-      searchResults
-        ? searchResults
-        : collection;
+  const handleCollectionItemMap = () => {
+    const toUse = searchResults ? searchResults : collection;
 
     return toUse?.map((e, i) => (
       <CollectionItem
@@ -41,7 +38,7 @@ export const CollectionList = () => {
         containerRef={collectionContainer}
       />
     ));
-  }, [collection, searchResults]);
+  };
 
   return (
     <>
@@ -56,7 +53,7 @@ export const CollectionList = () => {
               className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-2"
               ref={collectionContainer}
             >
-              {handleCollectionItemMap}
+              {handleCollectionItemMap()}
             </div>
           </div>
         </div>
