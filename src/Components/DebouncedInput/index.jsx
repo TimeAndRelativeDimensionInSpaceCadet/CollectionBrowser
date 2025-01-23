@@ -35,7 +35,7 @@ export const DebouncedInput = ({
         </svg>
       </div>
       <input
-        className="box-content w-ch-12 focus:sm:w-ch-20 transition-all pl-12 pb-3 pt-3 pr-3 rounded-md"
+        className="box-content w-ch-12 focus:w-ch-20 transition-all pl-12 pb-3 pt-3 pr-3 rounded-md"
         type="text"
         value={searchText}
         placeholder={placeholder}
