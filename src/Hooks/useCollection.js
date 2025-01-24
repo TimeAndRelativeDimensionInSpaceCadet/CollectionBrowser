@@ -1,9 +1,8 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
 
 const useCollection = () => {
-  const [collection, setCollection] = useState(null);
   const [loading, setIsLoading] = useState(false);
 
   const fetchRecords = async ({ pageParam }) => {
@@ -34,27 +33,21 @@ const useCollection = () => {
   } = useInfiniteQuery({
     queryKey: ['records'],
     queryFn: fetchRecords,
+    select: data => {
+      return data?.pages.flatMap(e => e.releases);
+    },
     initialPageParam: 1,
     getNextPageParam: getNextPageNumber,
     refetchOnWindowFocus: true,
     staleTime: 1000 * 60 * 5,
   });
 
-  const getCollection = useMemo(
-    () => data?.pages.flatMap(e => e.releases),
-    [data]
-  );
-
-  useEffect(() => {
-    if (getCollection) setCollection(getCollection);
-  }, [getCollection]);
-
   useEffect(() => {
     setIsLoading(status === 'pending' || isFetching);
   }, [isFetching, status]);
 
   return {
-    collection,
+    collection: data,
     loading,
     isFetchingNextPage,
     error,

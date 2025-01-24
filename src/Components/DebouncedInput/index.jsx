@@ -1,24 +1,29 @@
-import { useState, useMemo } from 'react';
+import { useState, useCallback } from 'react';
+import { useClassConcat } from '../../Hooks/useClassConcat';
 import { debounce } from '../../Util/debounce';
 
 export const DebouncedInput = ({
+  className,
   placeholder,
   handleChange,
   debounceTimer = 500,
 }) => {
   const [searchText, setSearchText] = useState('');
+  const classNames = useClassConcat('w-auto relative', className);
 
-  const handleDebouncedSearch = useMemo(() => {
-    return debounce(handleChange, debounceTimer);
-  }, [handleChange]);
+  const handleDebouncedSearch = useCallback(
+    debounce(handleChange, debounceTimer),
+    [handleChange]
+  );
 
   const handleTextChange = ({ target: { value } }) => {
     setSearchText(value);
     handleDebouncedSearch(value);
   };
+
   return (
-    <div className="w-auto relative">
-      <div className="absolute flex justify-center items-center h-full px-3">
+    <div className={classNames}>
+      <div className="absolute flex items-center h-full px-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -35,6 +40,7 @@ export const DebouncedInput = ({
         </svg>
       </div>
       <input
+        id="debounced-input"
         className="box-content w-ch-12 focus:w-ch-20 transition-all pl-12 pb-3 pt-3 pr-3 rounded-md"
         type="text"
         value={searchText}

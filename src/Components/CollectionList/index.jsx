@@ -1,8 +1,9 @@
-import { useRef, useMemo } from 'react';
+import { useRef } from 'react';
 import useCollection from '../../Hooks/useCollection';
 import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
 import { CollectionItem } from '../CollectionItem';
 import { ControlBar } from '../ControlBar';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 export const CollectionList = () => {
   const {
@@ -59,7 +60,11 @@ export const CollectionList = () => {
         </div>
       )}
       {error && <div>oops :&#x28;</div>}
-      {loading && <div>...loading</div>}
+      {loading && (
+        <div>
+          <LoadingSpinner />
+        </div>
+      )}
     </>
   );
 };
