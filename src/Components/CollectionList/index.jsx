@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import useCollection from '../../Hooks/useCollection';
+import useCollection, { useCollection2 } from '../../Hooks/useCollection';
 import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
 import { CollectionItem } from '../CollectionItem';
 import { ControlBar } from '../ControlBar';
@@ -18,6 +18,8 @@ export const CollectionList = () => {
 
   const { searchResults, handleSearchResults } =
     useCollectionSearch(collection);
+
+  const test = useCollection2();
 
   const handleScroll = async ({ target: container }) => {
     if (
@@ -46,7 +48,7 @@ export const CollectionList = () => {
       {collection && !error && (
         <div
           className="size-full overflow-y-auto overflow-x-hidden"
-          onScroll={handleScroll}
+          //onScroll={handleScroll}
         >
           <div className="px-1 pb-3">
             <ControlBar onSearch={handleSearchResults} />
@@ -61,8 +63,8 @@ export const CollectionList = () => {
       )}
       {error && <div>oops :&#x28;</div>}
       {loading && (
-        <div>
-          <LoadingSpinner />
+        <div className="max-h-16">
+          <LoadingSpinner className="stroke-cyan-500 fill-cyan-500 h-full w-full" />
         </div>
       )}
     </>

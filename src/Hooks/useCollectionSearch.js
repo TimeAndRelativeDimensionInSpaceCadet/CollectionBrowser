@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 export const useCollectionSearch = (externalCollection = null) => {
-  const [collection, setCollection] = useState(externalCollection);
+  const [collection, setCollection] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
 
   useEffect(() => {
