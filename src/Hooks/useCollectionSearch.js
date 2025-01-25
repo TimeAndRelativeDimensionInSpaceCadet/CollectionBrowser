@@ -8,10 +8,9 @@ export const useCollectionSearch = (externalCollection = null) => {
     if (externalCollection) setCollection(externalCollection);
   }, [externalCollection]);
 
-  const getArtistsFromInfo = artists =>
-    artists.map(a => a.name.toLowerCase()).join('');
+  const getArtistsFromInfo = artists => artists.map(a => a.name).join('');
 
-  const getGenresFromInfo = genres => genres.map(e => e.toLowerCase()).join('');
+  const getGenresFromInfo = genres => genres.join('');
 
   const handleSearchResults = useCallback(
     query => {
@@ -26,8 +25,10 @@ export const useCollectionSearch = (externalCollection = null) => {
             const hasQuery = [
               getArtistsFromInfo(artists),
               getGenresFromInfo(genres),
-              title.toLowerCase(),
-            ].some(queryable => queryable.includes(query));
+              title,
+            ].some(queryable =>
+              queryable.toLowerCase().includes(query.toLowerCase())
+            );
 
             return hasQuery;
           }
