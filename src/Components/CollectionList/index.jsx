@@ -1,35 +1,16 @@
 import { useRef } from 'react';
-import useCollection, { useCollection2 } from '../../Hooks/useCollection';
+import { useCollection } from '../../Hooks/useCollection';
 import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
 import { CollectionItem } from '../CollectionItem';
 import { ControlBar } from '../ControlBar';
 import { LoadingSpinner } from '../LoadingSpinner';
 
 export const CollectionList = () => {
-  const {
-    collection,
-    loading,
-    isFetchingNextPage,
-    error,
-    hasNextPage,
-    fetchNextPage,
-  } = useCollection();
+  const { collection, loading, error } = useCollection();
   const collectionContainer = useRef(null);
 
   const { searchResults, handleSearchResults } =
     useCollectionSearch(collection);
-
-  const test = useCollection2();
-
-  const handleScroll = async ({ target: container }) => {
-    if (
-      Math.ceil(container.scrollHeight - container.scrollTop) ===
-        container.clientHeight &&
-      hasNextPage
-    ) {
-      !isFetchingNextPage && (await fetchNextPage());
-    }
-  };
 
   const handleCollectionItemMap = () => {
     const toUse = searchResults ? searchResults : collection;
@@ -45,7 +26,7 @@ export const CollectionList = () => {
 
   return (
     <>
-      {collection && !error && (
+      {collection && !error && !loading && (
         <div
           className="size-full overflow-y-auto overflow-x-hidden"
           //onScroll={handleScroll}
