@@ -47,10 +47,10 @@ export const CollectionList = () => {
           className="size-full overflow-y-auto overflow-x-hidden"
           onScroll={handleScroll}
         >
-          <div className="px-1 pb-3">
+          <div className="pb-3">
             <ControlBar onSearch={handleSearchResults} />
             <div
-              className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-2"
+              className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-3"
               ref={collectionContainer}
             >
               {handleCollectionItemMap()}
