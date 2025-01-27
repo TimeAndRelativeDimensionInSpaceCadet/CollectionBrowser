@@ -12,6 +12,8 @@ export const useCollectionSearch = (externalCollection = null) => {
 
   const getGenresFromInfo = genres => genres.join('');
 
+  const getSubGenresFromInfo = subGenres => subGenres.join('');
+
   const handleSearchResults = useCallback(
     query => {
       if (query === '') {
@@ -21,10 +23,11 @@ export const useCollectionSearch = (externalCollection = null) => {
       if (collection) {
         const filteredCollection = collection.filter(
           ({ basic_information: info }) => {
-            const { artists, title, genres } = info;
+            const { artists, title, genres, styles } = info;
             const hasQuery = [
               getArtistsFromInfo(artists),
               getGenresFromInfo(genres),
+              getSubGenresFromInfo(styles),
               title,
             ].some(queryable =>
               queryable.toLowerCase().includes(query.toLowerCase())

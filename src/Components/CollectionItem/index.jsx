@@ -34,7 +34,9 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     [itemInfo]
   );
 
-  const formatGenres = () => itemInfo.genres.join(', ');
+  const formatGenres = useMemo(() => itemInfo.genres.join(', '), [itemInfo]);
+
+  const formatSubGenres = useMemo(() => itemInfo.styles.join(', '), [itemInfo]);
 
   return (
     <div
@@ -49,10 +51,13 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
             <div className="text-xl break-words font-semibold">
               {itemInfo.title}
             </div>
-            <div className="my-2">by</div>
+            <div className="my-1">by</div>
             {formatArtist}
           </div>
-          <div className="pb-8">{formatGenres()}</div>
+          <div className="pb-8 flex flex-col">
+            <div>{formatGenres}</div>
+            <div className="break-words italic">{formatSubGenres}</div>
+          </div>
         </div>
       </div>
     </div>
