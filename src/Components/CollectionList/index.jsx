@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useCallback, useMemo } from 'react';
 import { useCollection } from '../../Hooks/useCollection';
-import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
+//import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
 import { useCollectionControls } from '../../Hooks/useCollectionControls';
 import { CollectionItem } from '../CollectionItem';
 import { ControlBar } from '../ControlBar';
@@ -17,7 +17,7 @@ export const CollectionList = () => {
     handleSearchToggle,
   } = useCollectionControls(collection);
 
-  const handleCollectionItemMap = toUse => {
+  /* const handleCollectionItemMap = toUse => {
     return toUse?.map(({ basic_information }) => (
       <CollectionItem
         key={basic_information.title}
@@ -25,12 +25,12 @@ export const CollectionList = () => {
         containerRef={collectionContainer}
       />
     ));
-  };
+  }; */
 
-  const handleCollectionItemMap2 = filterSet => {
+  const handleCollectionItemMap = useMemo(() => {
     return controllableCollection
       ?.filter(({ id }) => {
-        return filterSet?.some(e => e.id === id) ?? true;
+        return searchResults?.some(e => e.id === id) ?? true;
       })
       ?.map(({ id, basic_information }) => (
         <CollectionItem
@@ -39,7 +39,7 @@ export const CollectionList = () => {
           containerRef={collectionContainer}
         />
       ));
-  };
+  }, [controllableCollection, searchResults]);
 
   return (
     <>
@@ -54,7 +54,7 @@ export const CollectionList = () => {
               className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-3"
               ref={collectionContainer}
             >
-              {handleCollectionItemMap2(searchResults)}
+              {handleCollectionItemMap}
             </div>
           </div>
         </div>
