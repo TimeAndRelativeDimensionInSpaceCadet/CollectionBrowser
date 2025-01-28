@@ -1,11 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useClassConcat } from '../../Hooks/useClassConcat';
+import { SortToggleButton } from '../SortToggleButton';
 import { DebouncedInput } from '../DebouncedInput';
-
-const sortDirections = {
-  ascending: 'asc',
-  descending: 'des',
-};
 
 export const ControlBar = ({ className, onSearch, onSortDirectionChange }) => {
   const classes = useClassConcat(
@@ -13,17 +9,9 @@ export const ControlBar = ({ className, onSearch, onSortDirectionChange }) => {
     className
   );
 
-  const [sortDirection, setSortDirection] = useState(sortDirections.ascending);
-
-  const toggleSortDirection = () => {
-    const { ascending, descending } = sortDirections;
-
-    sortDirection === sortDirections.ascending
-      ? setSortDirection(descending)
-      : setSortDirection(ascending);
-
+  const handleSortChange = useCallback(() => {
     onSortDirectionChange?.();
-  };
+  }, [onSortDirectionChange]);
 
   const handleSearch = useCallback(
     query => {
@@ -34,44 +22,17 @@ export const ControlBar = ({ className, onSearch, onSortDirectionChange }) => {
 
   return (
     <div className={classes}>
-      {onSearch && typeof onSearch == 'function' && (
+      {onSearch && typeof onSearch === 'function' && (
         <DebouncedInput
           className="self-center"
           placeholder="Search"
           handleChange={handleSearch}
         />
       )}
-      <div className="self-center w-auto">
-        <button className="h-full p-3" onClick={toggleSortDirection}>
-          {sortDirection === sortDirections.ascending && (
-            <SortAscendingIcon className="fill-cyan-500 size-6" />
-          )}
-          {sortDirection === sortDirections.descending && (
-            <SortDescendingIcon className="fill-cyan-500 size-6" />
-          )}
-        </button>
-      </div>
+      <SortToggleButton
+        className="self-center"
+        handleSortDirectionChange={handleSortChange}
+      />
     </div>
   );
 };
-
-const SortAscendingIcon = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-  >
-    <path d="M19 17H22L18 21L14 17H17V3H19M2 17H12V19H2M6 5V7H2V5M2 11H9V13H2V11Z" />
-  </svg>
-);
-
-const SortDescendingIcon = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-  >
-    <title>sort-descending</title>
-    <path d="M19 7H22L18 3L14 7H17V21H19M2 17H12V19H2M6 5V7H2V5M2 11H9V13H2V11Z" />
-  </svg>
-);
