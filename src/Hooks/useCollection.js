@@ -101,12 +101,12 @@ export const useCollection = () => {
           }))
         : [],
     combine: results => {
-      const test = {
+      const combined = {
         data: results?.flatMap(result => result?.data?.releases ?? []),
         pending: results?.some(result => result?.isPending ?? true),
         error: results?.some(result => result?.error ?? null),
       };
-      return test;
+      return combined;
     },
   });
 
