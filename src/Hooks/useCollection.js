@@ -71,7 +71,7 @@ export const useCollection = () => {
   };
 
   const getPageArray = data => {
-    const arr = [...Array((data?.pagination?.pages ?? 0) + 1).keys()].slice(1);
+    const arr = [...Array((data?.pages ?? 0) + 1).keys()].slice(1);
 
     return arr;
   };
@@ -93,7 +93,7 @@ export const useCollection = () => {
   } = useQueries({
     queries:
       initial && !isFetchingInitial
-        ? getPageArray(initial).map(page => ({
+        ? getPageArray(initial?.pagination).map(page => ({
             queryKey: ['records2', page],
             queryFn: fetchRecords(page),
             refetchOnWindowFocus: true,
@@ -102,7 +102,7 @@ export const useCollection = () => {
         : [],
     combine: results => {
       const test = {
-        data: results?.flatMap(page => page?.data?.releases ?? []),
+        data: results?.flatMap(result => result?.data?.releases ?? []),
         pending: results?.some(result => result?.isPending ?? true),
         error: results?.some(result => result?.error ?? null),
       };
