@@ -1,8 +1,85 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useInfiniteQuery, useQuery, useQueries } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
 
-const useInfiniteCollection = () => {
+export const useCollection = sortBy => {
+  const [loading, setIsLoading] = useState(false);
+  const [queryParams, setParams] = useState({ page: 1, sortBy });
+
+  /* const fetchRecords = pageNumber => async () => {
+    const { url, options } = makeCollectionRequest(pageNumber, ...params);
+    return await fetch(url, options).then(async response => {
+      if (response.ok) {
+        return await response.json();
+      }
+      return new Error(response?.statusText ?? '');
+    });
+  }; */
+
+  const updateParams = sortBy => {
+    setParams(prev => ({ ...prev, sortBy }));
+  };
+
+  const fetchRecords = async ({ queryKey }) => {
+    const [_key, { page, sortBy }] = queryKey;
+    const { url, options } = makeCollectionRequest(page, sortBy);
+    console.log(page, sortBy);
+    return await fetch(url, options).then(async response => {
+      if (response.ok) {
+        return await response.json();
+      }
+      return new Error(response?.statusText ?? '');
+    });
+  };
+
+  const getPageArray = pageData => {
+    const arr = [...Array((pageData?.pages ?? 0) + 1).keys()].slice(1);
+
+    return arr;
+  };
+
+  const {
+    data: initial,
+    isFetching: isFetchingInitial,
+    error: initialError,
+  } = useQuery({
+    queryKey: ['records', queryParams],
+    queryFn: fetchRecords,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const {
+    data: collection,
+    pending,
+    error: collectionError,
+  } = useQueries({
+    queries:
+      initial && !isFetchingInitial
+        ? getPageArray(initial?.pagination).map(page => ({
+            queryKey: ['records', { ...queryParams, page }],
+            queryFn: fetchRecords,
+            refetchOnWindowFocus: true,
+            staleTime: 1000 * 60 * 5,
+          }))
+        : [],
+    combine: results => {
+      const combined = {
+        data: results?.flatMap(result => result?.data?.releases ?? []),
+        pending: results?.some(result => result?.isFetching ?? true),
+        error: results?.some(result => result?.error ?? null),
+      };
+      return combined;
+    },
+  });
+
+  useEffect(() => {
+    setIsLoading(pending || isFetchingInitial);
+  }, [pending, isFetchingInitial]);
+
+  return { collection, loading, error: initialError || collectionError, updateParams };
+};
+
+export const useInfiniteCollection = () => {
   const [loading, setIsLoading] = useState(false);
 
   const fetchRecords = async ({ pageParam }) => {
@@ -55,66 +132,3 @@ const useInfiniteCollection = () => {
     fetchNextPage,
   };
 };
-
-export const useCollection = () => {
-  const [loading, setIsLoading] = useState(false);
-
-  const fetchRecords = pageNumber => async () => {
-    const { url, options } = makeCollectionRequest(pageNumber);
-
-    return await fetch(url, options).then(async response => {
-      if (response.ok) {
-        return await response.json();
-      }
-      return new Error(response?.statusText ?? '');
-    });
-  };
-
-  const getPageArray = data => {
-    const arr = [...Array((data?.pages ?? 0) + 1).keys()].slice(1);
-
-    return arr;
-  };
-
-  const {
-    data: initial,
-    isPending: isFetchingInitial,
-    error: initialError,
-  } = useQuery({
-    queryKey: ['records2', 1],
-    queryFn: fetchRecords(1),
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const {
-    data: collection,
-    pending,
-    error: collectionError,
-  } = useQueries({
-    queries:
-      initial && !isFetchingInitial
-        ? getPageArray(initial?.pagination).map(page => ({
-            queryKey: ['records2', page],
-            queryFn: fetchRecords(page),
-            refetchOnWindowFocus: true,
-            staleTime: 1000 * 60 * 5,
-          }))
-        : [],
-    combine: results => {
-      const combined = {
-        data: results?.flatMap(result => result?.data?.releases ?? []),
-        pending: results?.some(result => result?.isPending ?? true),
-        error: results?.some(result => result?.error ?? null),
-      };
-      return combined;
-    },
-  });
-
-  useEffect(() => {
-    setIsLoading(isFetchingInitial || pending);
-  }, [pending, isFetchingInitial]);
-
-  return { collection, loading, error: initialError || collectionError };
-};
-
-export default useInfiniteCollection;

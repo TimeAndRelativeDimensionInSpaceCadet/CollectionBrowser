@@ -1,13 +1,12 @@
 import { useRef, useCallback, useMemo } from 'react';
 import { useCollection } from '../../Hooks/useCollection';
-//import { useCollectionSearch } from '../../Hooks/useCollectionSearch';
 import { useCollectionControls } from '../../Hooks/useCollectionControls';
 import { CollectionItem } from '../CollectionItem';
 import { ControlBar } from '../ControlBar';
 import { LoadingSpinner } from '../LoadingSpinner';
 
 export const CollectionList = () => {
-  const { collection, loading, error } = useCollection();
+  const { collection, loading, error, updateParams } = useCollection('artist');
   const collectionContainer = useRef(null);
 
   const {
@@ -16,16 +15,6 @@ export const CollectionList = () => {
     handleSearchResults,
     handleSearchToggle,
   } = useCollectionControls(collection);
-
-  /* const handleCollectionItemMap = toUse => {
-    return toUse?.map(({ basic_information }) => (
-      <CollectionItem
-        key={basic_information.title}
-        itemInfo={basic_information}
-        containerRef={collectionContainer}
-      />
-    ));
-  }; */
 
   const handleCollectionItemMap = useMemo(() => {
     return controllableCollection
@@ -49,6 +38,7 @@ export const CollectionList = () => {
             <ControlBar
               onSearch={handleSearchResults}
               onSortDirectionChange={handleSearchToggle}
+              onSortByChange={updateParams}
             />
             <div
               className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-3"

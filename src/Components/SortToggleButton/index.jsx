@@ -14,11 +14,8 @@ export const SortToggleButton = ({ className, handleSortDirectionChange }) => {
   const toggleSortDirection = () => {
     const { ascending, descending } = sortDirections;
 
-    sortDirection === ascending
-      ? setSortDirection(descending)
-      : setSortDirection(ascending);
-
-    handleSortDirectionChange?.();
+    setSortDirection(prev => (prev === ascending ? descending : ascending));
+    handleSortDirectionChange?.(sortDirection);
   };
 
   return (

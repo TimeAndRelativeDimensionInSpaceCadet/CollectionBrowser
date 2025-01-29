@@ -1,23 +1,20 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useCollectionSearch } from './useCollectionSearch';
+import { useSortDirection } from './useSortDirection';
 
 export const useCollectionControls = collection => {
-  const [internalCollection, setInternalCollection] = useState(null);
   const { searchResults, handleSearchResults } =
-    useCollectionSearch(internalCollection);
+    useCollectionSearch(collection);
+  const { sortableCollection, handleSearchToggle } =
+    useSortDirection(collection);
+    const [ sortBy, setSortBy ] = useState('artist');
 
-  const handleSearchToggle = useCallback(() => {
-    setInternalCollection(internalCollection?.toReversed());
-  }, [internalCollection]);
-
-  useEffect(() => {
-    if (collection) setInternalCollection(collection);
-  }, [collection]);
-
+    
   return {
-    controllableCollection: internalCollection,
+    controllableCollection: sortableCollection,
     searchResults,
     handleSearchResults,
     handleSearchToggle,
+    setSortBy
   };
 };
