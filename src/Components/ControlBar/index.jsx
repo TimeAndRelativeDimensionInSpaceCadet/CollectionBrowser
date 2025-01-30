@@ -15,9 +15,12 @@ export const ControlBar = ({
   );
   const [selectedSort, setSelectedSort] = useState('artist');
 
-  const handleSortChange = useCallback(() => {
-    onSortDirectionChange?.();
-  }, [onSortDirectionChange]);
+  const handleSortChange = useCallback(
+    direction => {
+      onSortDirectionChange?.(direction);
+    },
+    [onSortDirectionChange]
+  );
 
   const handleSearch = useCallback(
     query => {

@@ -7,14 +7,13 @@ export const useCollectionControls = collection => {
     useCollectionSearch(collection);
   const { sortableCollection, handleSearchToggle } =
     useSortDirection(collection);
-    const [ sortBy, setSortBy ] = useState('artist');
+  const [, setSortBy] = useState('artist');
 
-    
   return {
     controllableCollection: sortableCollection,
     searchResults,
     handleSearchResults,
     handleSearchToggle,
-    setSortBy
+    setSortBy,
   };
 };

@@ -3,7 +3,7 @@ import { useInfiniteQuery, useQuery, useQueries } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
 
 export const useCollection = sortBy => {
-  const [loading, setIsLoading] = useState(false);
+  //const [loading, setIsLoading] = useState(false);
   const [queryParams, setParams] = useState({ page: 1, sortBy });
 
   const updateParams = sortBy => {
@@ -23,7 +23,7 @@ export const useCollection = sortBy => {
   };
 
   const getPageArray = pageData => {
-    const arr = [...Array((pageData?.pages ?? 0) + 1).keys()].slice(1);
+    const arr = [...Array(pageData?.pages + 1).keys()].slice(1);
 
     return arr;
   };
@@ -31,7 +31,6 @@ export const useCollection = sortBy => {
   const {
     data: initial,
     isFetching: isFetchingInitial,
-    pending: isInitialPending,
     error: initialError,
   } = useQuery({
     queryKey: ['records', queryParams],
@@ -41,7 +40,7 @@ export const useCollection = sortBy => {
 
   const {
     data: collection,
-    pending,
+    isFetchingQueries,
     error: collectionError,
   } = useQueries({
     queries:
@@ -56,20 +55,16 @@ export const useCollection = sortBy => {
     combine: results => {
       const combined = {
         data: results?.flatMap(result => result?.data?.releases ?? []),
-        pending: results?.some(result => result?.isFetching ?? true),
+        isFetchingQueries: results?.some(result => result?.isFetching ?? true),
         error: results?.some(result => result?.error ?? null),
       };
       return combined;
     },
   });
 
-  useEffect(() => {
-    setIsLoading(pending || isFetchingInitial);
-  }, [pending, isFetchingInitial]);
-
   return {
     collection,
-    loading,
+    loading: isFetchingInitial || isFetchingQueries,
     error: initialError || collectionError,
     updateParams,
   };
