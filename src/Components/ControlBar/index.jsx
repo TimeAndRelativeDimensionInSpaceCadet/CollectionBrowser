@@ -14,6 +14,7 @@ export const ControlBar = ({
     className
   );
   const [selectedSort, setSelectedSort] = useState('artist');
+
   const handleSortChange = useCallback(() => {
     onSortDirectionChange?.();
   }, [onSortDirectionChange]);
@@ -26,8 +27,10 @@ export const ControlBar = ({
   );
 
   const handleSortByChange = useCallback(e => {
-    setSelectedSort(e.target.value);
+    e.preventDefault();
     onSortByChange?.(e.target.value);
+
+    setSelectedSort(e.target.value);
   }, []);
 
   return (

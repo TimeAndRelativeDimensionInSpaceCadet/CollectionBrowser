@@ -6,16 +6,6 @@ export const useCollection = sortBy => {
   const [loading, setIsLoading] = useState(false);
   const [queryParams, setParams] = useState({ page: 1, sortBy });
 
-  /* const fetchRecords = pageNumber => async () => {
-    const { url, options } = makeCollectionRequest(pageNumber, ...params);
-    return await fetch(url, options).then(async response => {
-      if (response.ok) {
-        return await response.json();
-      }
-      return new Error(response?.statusText ?? '');
-    });
-  }; */
-
   const updateParams = sortBy => {
     setParams(prev => ({ ...prev, sortBy }));
   };
@@ -23,7 +13,7 @@ export const useCollection = sortBy => {
   const fetchRecords = async ({ queryKey }) => {
     const [_key, { page, sortBy }] = queryKey;
     const { url, options } = makeCollectionRequest(page, sortBy);
-    console.log(page, sortBy);
+
     return await fetch(url, options).then(async response => {
       if (response.ok) {
         return await response.json();
@@ -41,6 +31,7 @@ export const useCollection = sortBy => {
   const {
     data: initial,
     isFetching: isFetchingInitial,
+    pending: isInitialPending,
     error: initialError,
   } = useQuery({
     queryKey: ['records', queryParams],
@@ -76,7 +67,12 @@ export const useCollection = sortBy => {
     setIsLoading(pending || isFetchingInitial);
   }, [pending, isFetchingInitial]);
 
-  return { collection, loading, error: initialError || collectionError, updateParams };
+  return {
+    collection,
+    loading,
+    error: initialError || collectionError,
+    updateParams,
+  };
 };
 
 export const useInfiniteCollection = () => {

@@ -3,10 +3,15 @@ import { useState, useEffect, useCallback } from 'react';
 export const useCollectionSearch = (externalCollection = null) => {
   const [collection, setCollection] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
+  const [currentQuery, setCurrentQuery] = useState(null);
 
   useEffect(() => {
     if (externalCollection) setCollection(externalCollection);
   }, [externalCollection]);
+
+  useEffect(() => {
+    if (currentQuery) handleSearchResults(currentQuery);
+  }, [collection, currentQuery]);
 
   const getArtistsFromInfo = artists => artists.map(a => a.name).join('');
 
@@ -18,6 +23,7 @@ export const useCollectionSearch = (externalCollection = null) => {
     query => {
       if (query === '') {
         setSearchResults(null);
+        setCurrentQuery(null);
         return;
       }
       if (collection) {
@@ -36,7 +42,7 @@ export const useCollectionSearch = (externalCollection = null) => {
             return hasQuery;
           }
         );
-
+        setCurrentQuery(query);
         setSearchResults(filteredCollection);
       }
     },

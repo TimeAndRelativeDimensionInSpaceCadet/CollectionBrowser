@@ -30,6 +30,9 @@ export default {
         '.grid-cols-auto-fit-250': {
           gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
         },
+        '.negative-mt-20': {
+          marginTop: '-5rem',
+        },
       });
       addVariant('all-descendents', '& *');
       addVariant('children', '& > *');
