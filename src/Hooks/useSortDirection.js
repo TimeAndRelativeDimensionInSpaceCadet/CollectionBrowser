@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react';
 import { sortDirections } from '../Components/SortToggleButton';
 
-export const useSortDirection = collection => {
+export const useSort = collection => {
   const [sortableCollection, setInternalCollection] = useState(collection);
   const [sortDirection, setSortDirection] = useState(sortDirections.ascending);
 
@@ -9,7 +9,7 @@ export const useSortDirection = collection => {
     if (collection) setInternalCollection(collection);
   }, [collection]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (collection)
       setInternalCollection(prev => {
         return sortDirection === sortDirections.descending

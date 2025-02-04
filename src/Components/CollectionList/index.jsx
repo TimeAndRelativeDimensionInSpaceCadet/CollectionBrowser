@@ -1,4 +1,4 @@
-import { useRef, useCallback, useMemo } from 'react';
+import { useRef, useMemo } from 'react';
 import { useCollection } from '../../Hooks/useCollection';
 import { useCollectionControls } from '../../Hooks/useCollectionControls';
 import { CollectionItem } from '../CollectionItem';

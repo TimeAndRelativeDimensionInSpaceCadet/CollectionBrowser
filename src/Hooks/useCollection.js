@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useInfiniteQuery, useQuery, useQueries } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
 

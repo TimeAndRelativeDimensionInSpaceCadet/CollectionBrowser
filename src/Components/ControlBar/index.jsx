@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SortToggleButton } from '../SortToggleButton';
 import { DebouncedInput } from '../DebouncedInput';
+import { SortBySelectInput } from '../SortBySelectInput';
 
 export const ControlBar = ({
   className,
@@ -13,7 +14,6 @@ export const ControlBar = ({
     'sticky flex flex-row-reverse w-full h-20 p-3 top-0 left-0 bg-slate-700 shadow-md shadow-slate-700/80 z-10',
     className
   );
-  const [selectedSort, setSelectedSort] = useState('artist');
 
   const handleSortChange = useCallback(
     direction => {
@@ -29,12 +29,12 @@ export const ControlBar = ({
     [onSearch]
   );
 
-  const handleSortByChange = useCallback(e => {
-    e.preventDefault();
-    onSortByChange?.(e.target.value);
-
-    setSelectedSort(e.target.value);
-  }, []);
+  const handleSortByChange = useCallback(
+    value => {
+      onSortByChange?.(value);
+    },
+    [onSortByChange]
+  );
 
   return (
     <div className={classes}>
@@ -45,12 +45,10 @@ export const ControlBar = ({
         />
       )}
       {onSortByChange && typeof onSortByChange === 'function' && (
-        <div>
-          <select onChange={handleSortByChange} value={selectedSort}>
-            <option value="artist">Artist</option>
-            <option value="title">Title</option>
-          </select>
-        </div>
+        <SortBySelectInput
+          sortOptions={['artist', 'title']}
+          onSortByChange={handleSortByChange}
+        />
       )}
       {onSearch && typeof onSearch === 'function' && (
         <DebouncedInput

@@ -1,19 +1,15 @@
-import { useState } from 'react';
 import { useCollectionSearch } from './useCollectionSearch';
-import { useSortDirection } from './useSortDirection';
+import { useSort } from './useSortDirection';
 
 export const useCollectionControls = collection => {
   const { searchResults, handleSearchResults } =
     useCollectionSearch(collection);
-  const { sortableCollection, handleSearchToggle } =
-    useSortDirection(collection);
-  const [, setSortBy] = useState('artist');
+  const { sortableCollection, handleSearchToggle } = useSort(collection);
 
   return {
     controllableCollection: sortableCollection,
     searchResults,
     handleSearchResults,
     handleSearchToggle,
-    setSortBy,
   };
 };
