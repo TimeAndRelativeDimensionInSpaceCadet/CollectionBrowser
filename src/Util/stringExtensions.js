@@ -1,5 +1,7 @@
 Object.defineProperty(String.prototype, 'toTitleCase', {
   value() {
-    return this.replace(/(^\w|(?<= )\w)/g, e => e.toUpperCase());
+    //regex note: match the first character of the string or the first word character (letter) after a whitespace character
+    //not including whitespace character in match.
+    return this.replace(/^\w|(?<=\s)\w/g, e => e.toUpperCase());
   },
 });
