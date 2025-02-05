@@ -27,6 +27,9 @@ export default {
         '.transform-flip-y': {
           transform: 'rotateY(180deg)',
         },
+        '.transform-flip': {
+          transform: 'rotate(180deg)',
+        },
         '.grid-cols-auto-fit-250': {
           gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
         },
