@@ -19,23 +19,18 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
     option => () => {
       handleSortByChange(option);
     },
-    [handleSortByChange, setOpen]
+    [handleSortByChange]
   );
 
   const options = useMemo(() => {
     const mappedOptions = sortOptions?.map((option, index) => {
-      const firstChar = option.slice(0, 1);
-      const toDisplay = [
-        ...option.replace(new RegExp('^\\w'), firstChar.toUpperCase()),
-      ].join('');
-
       return (
         <div
           className="hover:bg-slate-600 p-2 hover:color:white"
           key={index}
           onClick={handleSelect(option)}
         >
-          {toDisplay}
+          {option.toCapitalized()}
         </div>
       );
     });
@@ -76,7 +71,7 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
         </div>
 
         <div className="h-full w-full pl-3 pt-3 pb-3 pr-12 bg-[#242424] rounded-md select-none">
-          {selectedSort}
+          {selectedSort.toCapitalized()}
         </div>
       </div>
       <div

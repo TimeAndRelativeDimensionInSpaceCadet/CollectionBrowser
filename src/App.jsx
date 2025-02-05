@@ -2,6 +2,7 @@ import { CollectionList } from './Components/CollectionList';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { apiClient } from './Util/apiClient';
 import './App.css';
+import './Util/stringExtensions';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
