@@ -4,7 +4,6 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
   const [open, setOpen] = useState(false);
   const arrow = useRef(null);
-  const dropDown = useRef(null);
 
   const handleSortByChange = useCallback(
     value => {
@@ -26,16 +25,18 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
     const mappedOptions = sortOptions?.map((option, index) => {
       return (
         <div
-          className="hover:bg-slate-600 p-2 hover:color:white"
+          className={`${
+            selectedSort == option ? 'bg-slate-600 ' : 'hover:bg-slate-600 '
+          }p-2 cursor-pointer select-none`}
           key={index}
           onClick={handleSelect(option)}
         >
-          {option.toCapitalized()}
+          {option.toTitleCase()}
         </div>
       );
     });
     return mappedOptions;
-  }, [sortOptions, handleSelect]);
+  }, [sortOptions, selectedSort, handleSelect]);
 
   const handleClick = () => {
     const { current: arr } = arrow;
@@ -69,16 +70,15 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
             />
           </svg>
         </div>
-
         <div className="h-full w-full pl-3 pt-3 pb-3 pr-12 bg-[#242424] rounded-md select-none">
-          {selectedSort.toCapitalized()}
+          {selectedSort.toTitleCase()}
         </div>
       </div>
       <div
+        aria-hidden={!open}
         className={`${
           !open ? 'hidden' : ''
         } absolute top-full right-0 bg-[#242424] w-full`}
-        ref={dropDown}
       >
         {options}
       </div>

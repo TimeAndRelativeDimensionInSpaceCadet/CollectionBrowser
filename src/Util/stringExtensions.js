@@ -1,4 +1,4 @@
-Object.defineProperty(String.prototype, 'toCapitalized', {
+Object.defineProperty(String.prototype, 'toTitleCase', {
   value() {
     const values = this.split(' ');
     return values
