@@ -36,6 +36,9 @@ export default {
         '.negative-mt-20': {
           marginTop: '-5rem',
         },
+        '.dark-theme-bg': {
+          backgroundColor: 'Field',
+        },
       });
       addVariant('all-descendents', '& *');
       addVariant('children', '& > *');

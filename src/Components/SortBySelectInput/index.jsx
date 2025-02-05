@@ -1,9 +1,8 @@
-import { useMemo, useState, useCallback, useRef } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
 export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
   const [open, setOpen] = useState(false);
-  const arrow = useRef(null);
 
   const handleSortByChange = useCallback(
     value => {
@@ -39,29 +38,23 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
   }, [sortOptions, selectedSort, handleSelect]);
 
   const handleClick = () => {
-    const { current: arr } = arrow;
-
-    !arr.classList.contains('transform-flip')
-      ? arr.classList.add('transform-flip')
-      : arr.classList.remove('transform-flip');
     setOpen(prev => !prev);
   };
 
   return (
-    <div className="self-center w-auto relative">
+    <div className={`self-center w-auto relative`}>
       <div
         className="w-full h-full flex rounded-md cursor-pointer"
         onClick={handleClick}
       >
         <div className="absolute right-0 top-0 p-3 h-full">
           <svg
-            ref={arrow}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-6 transition-all"
+            className={`${!open ? '' : 'transform-flip'} size-6 transition-all`}
           >
             <path
               strokeLinecap="round"
@@ -70,7 +63,7 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
             />
           </svg>
         </div>
-        <div className="h-full w-full pl-3 pt-3 pb-3 pr-12 bg-[#242424] rounded-md select-none">
+        <div className="h-full w-full pl-3 pt-3 pb-3 pr-12 rounded-md  dark-theme-bg select-none">
           {selectedSort.toTitleCase()}
         </div>
       </div>
@@ -78,7 +71,7 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
         aria-hidden={!open}
         className={`${
           !open ? 'hidden' : ''
-        } absolute top-full right-0 bg-[#242424] w-full`}
+        } absolute top-full right-0  dark-theme-bg w-full rounded-md`}
       >
         {options}
       </div>
