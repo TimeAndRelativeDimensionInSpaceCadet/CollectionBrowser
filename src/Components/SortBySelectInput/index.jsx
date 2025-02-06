@@ -9,8 +9,8 @@ export const SortBySelectInput = ({
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
   const [open, setOpen] = useState(false);
 
-  const getMinimumLengthByMaxLength = useCallback(
-    () => sortOptions.reduce((a, b) => Math.max(a.length, b.length)),
+  const getMaxCharacterLengthStr = useCallback(
+    () => `${sortOptions.reduce((a, b) => Math.max(a.length, b.length)) + 1}ch`,
     [sortOptions]
   );
   const classes = useClassConcat(`relative w-auto`, className);
@@ -74,7 +74,9 @@ export const SortBySelectInput = ({
             />
           </svg>
         </div>
-        <div className={`h-full min-w-[12ch] content-box select-none`}>
+        <div
+          className={`h-full min-w-[${getMaxCharacterLengthStr()}] content-box select-none`}
+        >
           {selectedSort.toTitleCase()}
         </div>
       </div>
