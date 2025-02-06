@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SortToggleButton } from '../SortToggleButton';
 import { DebouncedInput } from '../DebouncedInput';
@@ -10,6 +10,7 @@ export const ControlBar = ({
   onSortDirectionChange,
   onSortByChange,
 }) => {
+  const { current: sortOptions } = useRef(['artist', 'title', 'year']);
   const classes = useClassConcat(
     'sticky flex flex-row-reverse w-full h-20 p-3 top-0 left-0 bg-slate-700 shadow-md shadow-slate-700/80 z-10',
     className
@@ -47,7 +48,7 @@ export const ControlBar = ({
       {onSortByChange && typeof onSortByChange === 'function' && (
         <SortBySelectInput
           className="self-center mr-2"
-          sortOptions={['artist', 'title']}
+          sortOptions={sortOptions}
           onSortByChange={handleSortByChange}
         />
       )}

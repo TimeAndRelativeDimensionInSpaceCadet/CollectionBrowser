@@ -10,8 +10,8 @@ export const SortBySelectInput = ({
   const [open, setOpen] = useState(false);
   const classes = useClassConcat(`relative w-auto`, className);
 
-  const getMinCharacterLength = useCallback(
-    () => `${sortOptions.reduce((a, b) => Math.max(a.length, b.length))}ch`,
+  const getMinCharacterLength = useMemo(
+    () => `${sortOptions.reduce((a, b) => Math.max(a, b.length), 0)}ch`,
     [sortOptions]
   );
 
@@ -76,7 +76,7 @@ export const SortBySelectInput = ({
         </div>
         <div
           className="h-full min-w-[var(--minCharLength)] select-none"
-          style={{ '--minCharLength': getMinCharacterLength() }}
+          style={{ '--minCharLength': getMinCharacterLength }}
         >
           {selectedSort.toTitleCase()}
         </div>
