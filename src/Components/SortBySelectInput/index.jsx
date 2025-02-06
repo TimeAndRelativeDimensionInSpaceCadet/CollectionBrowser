@@ -1,8 +1,19 @@
 import { useMemo, useState, useCallback } from 'react';
+import { useClassConcat } from '../../Hooks/useClassConcat';
 
-export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
+export const SortBySelectInput = ({
+  className,
+  sortOptions,
+  onSortByChange,
+}) => {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
   const [open, setOpen] = useState(false);
+
+  const getMinimumLengthByMaxLength = useCallback(
+    () => sortOptions.reduce((a, b) => Math.max(a.length, b.length)),
+    [sortOptions]
+  );
+  const classes = useClassConcat(`relative w-auto`, className);
 
   const handleSortByChange = useCallback(
     value => {
@@ -42,12 +53,12 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
   };
 
   return (
-    <div className={`self-center w-auto relative`}>
+    <div className={classes}>
       <div
-        className="w-full h-full flex rounded-md cursor-pointer"
+        className="flex pl-3 pt-3 pb-3 dark-theme-bg pr-12 rounded-md cursor-pointer"
         onClick={handleClick}
       >
-        <div className="absolute right-0 top-0 p-3 h-full">
+        <div className="absolute right-0 top-0 px-3 h-full flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -63,7 +74,7 @@ export const SortBySelectInput = ({ sortOptions, onSortByChange }) => {
             />
           </svg>
         </div>
-        <div className="h-full w-full pl-3 pt-3 pb-3 pr-12 rounded-md  dark-theme-bg select-none">
+        <div className={`h-full min-w-[12ch] content-box select-none`}>
           {selectedSort.toTitleCase()}
         </div>
       </div>

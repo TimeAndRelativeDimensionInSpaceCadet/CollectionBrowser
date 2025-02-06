@@ -46,13 +46,14 @@ export const ControlBar = ({
       )}
       {onSortByChange && typeof onSortByChange === 'function' && (
         <SortBySelectInput
+          className="self-center mr-2"
           sortOptions={['artist', 'title']}
           onSortByChange={handleSortByChange}
         />
       )}
       {onSearch && typeof onSearch === 'function' && (
         <DebouncedInput
-          className="self-center"
+          className="mr-2 self-center"
           placeholder="Search"
           handleChange={handleSearch}
         />

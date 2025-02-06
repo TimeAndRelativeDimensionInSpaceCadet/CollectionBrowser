@@ -37,7 +37,7 @@ export default {
           marginTop: '-5rem',
         },
         '.dark-theme-bg': {
-          backgroundColor: 'Field',
+          backgroundColor: 'field',
         },
       });
       addVariant('all-descendents', '& *');
