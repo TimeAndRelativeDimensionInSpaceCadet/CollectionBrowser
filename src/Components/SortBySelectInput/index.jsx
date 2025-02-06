@@ -75,7 +75,7 @@ export const SortBySelectInput = ({
           </svg>
         </div>
         <div
-          className={`h-full min-w-[${getMaxCharacterLengthStr()}] content-box select-none`}
+          className={`h-full min-w-[${getMaxCharacterLengthStr()}] select-none`}
         >
           {selectedSort.toTitleCase()}
         </div>
