@@ -8,12 +8,12 @@ export const SortBySelectInput = ({
 }) => {
   const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
   const [open, setOpen] = useState(false);
+  const classes = useClassConcat(`relative w-auto`, className);
 
-  const getMaxCharacterLengthStr = useCallback(
-    () => `${sortOptions.reduce((a, b) => Math.max(a.length, b.length)) + 1}ch`,
+  const getMinCharacterLength = useCallback(
+    () => `${sortOptions.reduce((a, b) => Math.max(a.length, b.length))}ch`,
     [sortOptions]
   );
-  const classes = useClassConcat(`relative w-auto`, className);
 
   const handleSortByChange = useCallback(
     value => {
@@ -65,7 +65,9 @@ export const SortBySelectInput = ({
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className={`${!open ? '' : 'transform-flip'} size-6 transition-all`}
+            className={`${
+              !open ? '' : 'transform-flip'
+            } size-6 transition-all`.trim()}
           >
             <path
               strokeLinecap="round"
@@ -75,7 +77,8 @@ export const SortBySelectInput = ({
           </svg>
         </div>
         <div
-          className={`h-full min-w-[${getMaxCharacterLengthStr()}] select-none`}
+          className="h-full min-w-[var(--minCharLength)] select-none"
+          style={{ '--minCharLength': getMinCharacterLength() }}
         >
           {selectedSort.toTitleCase()}
         </div>
