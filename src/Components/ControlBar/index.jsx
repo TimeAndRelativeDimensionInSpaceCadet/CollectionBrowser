@@ -3,6 +3,7 @@ import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SortToggleButton } from '../SortToggleButton';
 import { DebouncedInput } from '../DebouncedInput';
 import { SortBySelectInput } from '../SortBySelectInput';
+import { SidebarDrawer } from '../SidebarDrawer';
 
 export const ControlBar = ({
   className,
@@ -39,6 +40,29 @@ export const ControlBar = ({
 
   return (
     <>
+      <SidebarDrawer open={true}>
+        {onSortDirectionChange &&
+          typeof onSortDirectionChange === 'function' && (
+            <SortToggleButton
+              className="self-center"
+              handleSortDirectionChange={handleSortChange}
+            />
+          )}
+        {onSortByChange && typeof onSortByChange === 'function' && (
+          <SortBySelectInput
+            className="self-center mr-2"
+            sortOptions={sortOptions}
+            onSortByChange={handleSortByChange}
+          />
+        )}
+        {onSearch && typeof onSearch === 'function' && (
+          <DebouncedInput
+            className="mr-2 self-center"
+            placeholder="Search"
+            handleChange={handleSearch}
+          />
+        )}
+      </SidebarDrawer>
       <div className={classes}>
         {onSortDirectionChange &&
           typeof onSortDirectionChange === 'function' && (
