@@ -12,7 +12,7 @@ export const ControlBar = ({
 }) => {
   const { current: sortOptions } = useRef(['artist', 'title', 'year']);
   const classes = useClassConcat(
-    'sticky flex flex-row-reverse w-full h-20 p-3 top-0 left-0 bg-slate-700 shadow-md shadow-slate-700/80 z-10',
+    'sticky flex flex-row-reverse max-w-full w-full h-20 p-3 top-0 left-0 bg-slate-700 shadow-md shadow-slate-700/80 z-10',
     className
   );
 
@@ -38,27 +38,30 @@ export const ControlBar = ({
   );
 
   return (
-    <div className={classes}>
-      {onSortDirectionChange && typeof onSortDirectionChange === 'function' && (
-        <SortToggleButton
-          className="self-center"
-          handleSortDirectionChange={handleSortChange}
-        />
-      )}
-      {onSortByChange && typeof onSortByChange === 'function' && (
-        <SortBySelectInput
-          className="self-center mr-2"
-          sortOptions={sortOptions}
-          onSortByChange={handleSortByChange}
-        />
-      )}
-      {onSearch && typeof onSearch === 'function' && (
-        <DebouncedInput
-          className="mr-2 self-center"
-          placeholder="Search"
-          handleChange={handleSearch}
-        />
-      )}
-    </div>
+    <>
+      <div className={classes}>
+        {onSortDirectionChange &&
+          typeof onSortDirectionChange === 'function' && (
+            <SortToggleButton
+              className="self-center"
+              handleSortDirectionChange={handleSortChange}
+            />
+          )}
+        {onSortByChange && typeof onSortByChange === 'function' && (
+          <SortBySelectInput
+            className="self-center mr-2"
+            sortOptions={sortOptions}
+            onSortByChange={handleSortByChange}
+          />
+        )}
+        {onSearch && typeof onSearch === 'function' && (
+          <DebouncedInput
+            className="mr-2 self-center"
+            placeholder="Search"
+            handleChange={handleSearch}
+          />
+        )}
+      </div>
+    </>
   );
 };

@@ -9,7 +9,10 @@ export const DebouncedInput = ({
   debounceTimer = 500,
 }) => {
   const [searchText, setSearchText] = useState('');
-  const classNames = useClassConcat('w-auto relative', className);
+  const classNames = useClassConcat(
+    'transition-all w-[15ch] focus-within:w-ch-20 relative',
+    className
+  );
 
   const handleDebouncedSearch = useCallback(
     debounce(handleChange, debounceTimer),
@@ -41,7 +44,7 @@ export const DebouncedInput = ({
       </div>
       <input
         id="debounced-input"
-        className="box-content w-ch-12 focus:w-ch-20 transition-all pl-12 pb-3 pt-3 pr-3 rounded-md"
+        className="max-w-full pl-12 pb-3 pt-3 pr-3 rounded-md"
         type="text"
         value={searchText}
         placeholder={placeholder}

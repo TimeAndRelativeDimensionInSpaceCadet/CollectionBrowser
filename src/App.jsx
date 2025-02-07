@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 function App() {
   return (
     <QueryClientProvider client={apiClient}>
-      <div className="app-container max-w-screen-xl mx-auto">
+      <div className="app-container max-w-screen-xl mx-auto relative">
         <CollectionList />
         {typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object' && (
           <ReactQueryDevtools />
