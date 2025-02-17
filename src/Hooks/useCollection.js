@@ -64,7 +64,7 @@ export const useCollection = sortBy => {
 
   return {
     collection,
-    loading: isFetchingInitial || isFetchingQueries,
+    loading: isFetchingInitial || isFetchingQueries /*  true */,
     error: initialError || collectionError,
     updateParams,
   };

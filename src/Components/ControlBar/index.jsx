@@ -1,12 +1,15 @@
 import { useCallback, useRef, useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SortToggleButton } from '../SortToggleButton';
 import { DebouncedInput } from '../DebouncedInput';
 import { SortBySelectInput } from '../SortBySelectInput';
 import { SidebarDrawer } from '../SidebarDrawer';
+import { HamburgerToggle } from '../HamburgerToggle';
 
 export const ControlBar = ({
   className,
+  drawerContainerRef,
   onSearch,
   onSortDirectionChange,
   onSortByChange,
@@ -14,7 +17,7 @@ export const ControlBar = ({
   const { current: sortOptions } = useRef(['artist', 'title', 'year']);
   const [drawerOpen, setDrawerOpen] = useState(true);
   const classes = useClassConcat(
-    'sticky flex flex-row-reverse max-w-full w-full h-20 p-3 top-0 left-0 bg-slate-700 shadow-md shadow-slate-700/80 z-10',
+    'flex flex-row-reverse items-center max-w-full w-full p-3 bg-slate-700 z-10',
     className
   );
 
@@ -39,19 +42,20 @@ export const ControlBar = ({
     [onSortByChange]
   );
 
+  const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
+
   const controls = useMemo(() => {
     const result = [
       onSortDirectionChange && typeof onSortDirectionChange === 'function' && (
         <SortToggleButton
           key="SortDirectionToggle"
-          className="self-center"
           handleSortDirectionChange={handleSortChange}
         />
       ),
       onSortByChange && typeof onSortByChange === 'function' && (
         <SortBySelectInput
           key="SortByInput"
-          className="self-center mr-2"
+          className="mr-2"
           sortOptions={sortOptions}
           onSortByChange={handleSortByChange}
         />
@@ -59,7 +63,6 @@ export const ControlBar = ({
       onSearch && typeof onSearch === 'function' && (
         <DebouncedInput
           key="SearchInput"
-          className="mr-2 self-center"
           placeholder="Search"
           handleChange={handleSearch}
         />
@@ -69,17 +72,20 @@ export const ControlBar = ({
     return result;
   }, [onSortByChange, onSortDirectionChange, onSearch]);
 
-  const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
-
   return (
     <>
-      <SidebarDrawer open={drawerOpen}>
-        <button className="bg-transparent" onClick={handleToggleDrawer}>
-          x
-        </button>
+      <div className={classes}>
+        <HamburgerToggle
+          isToggled={drawerOpen}
+          handleToggle={handleToggleDrawer}
+        />
         {controls}
-      </SidebarDrawer>
-      <div className={classes}>{controls}</div>
+      </div>
+      {drawerContainerRef.current &&
+        createPortal(
+          <SidebarDrawer open={drawerOpen}>{controls}</SidebarDrawer>,
+          drawerContainerRef.current
+        )}
     </>
   );
 };

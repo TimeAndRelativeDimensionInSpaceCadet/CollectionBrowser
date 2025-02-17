@@ -1,0 +1,58 @@
+.toggle-btn {
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  top: 10;
+  z-index: 5;
+  background: transparent;
+  cursor: pointer;
+
+  &.active {
+    &:before {
+      transform: scale(18);
+
+      @media (min-height: 800px) {
+        transform: scale(25);
+      }
+    }
+  }
+
+  &:active {
+    &:before {
+      opacity: 0.75;
+    }
+  }
+}
+
+.hamburger {
+  transition: all 0.3s ease-out;
+
+  .patty {
+    will-change: transform, opacity;
+    width: 32px;
+    height: 3px;
+    margin: 0 0 6px 0;
+    background: lighten(black, 20);
+    opacity: 1;
+    transform: translate(0) rotate(0deg);
+    transition: all 0.2s ease-out;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.close {
+    transform: rotate(-180deg);
+
+    .patty:nth-child(1) {
+      transform: translate(-10px, 4px) rotate(-45deg) scale(0.5, 1);
+    }
+
+    .patty:nth-child(3) {
+      transform: translate(-10px, -4px) rotate(45deg) scale(0.5, 1);
+    }
+  }
+}

@@ -8,6 +8,7 @@ import { LoadingSpinner } from '../LoadingSpinner';
 export const CollectionList = () => {
   const { collection, loading, error, updateParams } = useCollection('artist');
   const collectionContainer = useRef(null);
+  const drawerRef = useRef(null);
 
   const {
     controllableCollection,
@@ -33,28 +34,28 @@ export const CollectionList = () => {
   return (
     <>
       {collection && !error && (
-        <div className="size-full overflow-y-auto overflow-x-hidden">
+        <div className="size-full overflow-hidden flex flex-col">
           <ControlBar
+            drawerContainerRef={drawerRef}
             onSearch={handleSearchResults}
             onSortDirectionChange={handleSearchToggle}
             onSortByChange={updateParams}
           />
-
-          {!loading && (
-            <div className="relative pb-3">
+          <div ref={drawerRef} className="relative flex-1 overflow-hidden">
+            {!loading && (
               <div
-                className="size-full grid grid-cols-auto-fit-250 gap-3 pt-3 px-3"
+                className="overflow-y-auto max-h-full grid grid-cols-auto-fit-250 gap-3 p-3"
                 ref={collectionContainer}
               >
                 {handleCollectionItemMap}
               </div>
-            </div>
-          )}
-          {loading && (
-            <div className="size-full negative-mt-20 flex items-center justify-center">
-              <LoadingSpinner className="stroke-cyan-500 fill-cyan-500 max-h-16" />
-            </div>
-          )}
+            )}
+            {loading && (
+              <div className="size-full flex items-center justify-center">
+                <LoadingSpinner className="stroke-cyan-500 fill-cyan-500 max-h-16" />
+              </div>
+            )}
+          </div>
         </div>
       )}
       {error && <div>oops :&#x28;</div>}
