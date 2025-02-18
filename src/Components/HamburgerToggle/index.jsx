@@ -7,6 +7,7 @@ export const HamburgerToggle = ({ isToggled, handleToggle = () => {} }) => {
     'hamburger children:bg-cyan-500',
     isToggled ? 'close' : ''
   );
+
   return (
     <div class={btnClasses} onClick={handleToggle}>
       <div class={burgerClasses}>

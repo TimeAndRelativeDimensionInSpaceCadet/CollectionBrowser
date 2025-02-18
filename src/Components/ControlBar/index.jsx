@@ -15,7 +15,7 @@ export const ControlBar = ({
   onSortByChange,
 }) => {
   const { current: sortOptions } = useRef(['artist', 'title', 'year']);
-  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const classes = useClassConcat(
     'flex flex-row-reverse items-center max-w-full w-full p-3 bg-slate-700 z-10',
     className
