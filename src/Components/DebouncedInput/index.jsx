@@ -16,7 +16,7 @@ export const DebouncedInput = ({
 
   const handleDebouncedSearch = useCallback(
     debounce(handleChange, debounceTimer),
-    [handleChange]
+    [handleChange, debounceTimer]
   );
 
   const handleTextChange = ({ target: { value } }) => {

@@ -23,58 +23,34 @@ export const ControlBar = ({
   );
 
   const isMobile = useBreakpoint(750, QueryType.LessThanEqualTo);
-
-  const handleSortChange = useCallback(
-    direction => {
-      onSortDirectionChange?.(direction);
-    },
-    [onSortDirectionChange]
-  );
-
-  const handleSearch = useCallback(
-    query => {
-      onSearch?.(query);
-    },
-    [onSearch]
-  );
-
-  const handleSortByChange = useCallback(
-    value => {
-      onSortByChange?.(value);
-    },
-    [onSortByChange]
-  );
-
   const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
 
-  const controls = useMemo(() => {
-    const controls = [
-      onSortDirectionChange && typeof onSortDirectionChange === 'function' && (
+  const { current: controlsGroup } = useRef([
+    <div className="flex">
+      {onSortDirectionChange && typeof onSortDirectionChange === 'function' && (
         <SortToggleButton
           key="SortDirectionToggle"
-          handleSortDirectionChange={handleSortChange}
+          handleSortDirectionChange={onSortDirectionChange}
         />
-      ),
-      onSortByChange && typeof onSortByChange === 'function' && (
+      )}
+      {onSortByChange && typeof onSortByChange === 'function' && (
         <SortBySelectInput
           key="SortByInput"
           className="mr-2"
           sortOptions={sortOptions}
-          onSortByChange={handleSortByChange}
+          onSortByChange={onSortByChange}
         />
-      ),
-      onSearch && typeof onSearch === 'function' && (
-        <DebouncedInput
-          className="mr-2"
-          key="SearchInput"
-          placeholder="Search"
-          handleChange={handleSearch}
-        />
-      ),
-    ];
-
-    return controls.reduce((a, b) => (b ? [...a, b] : a), []);
-  }, [onSortByChange, onSortDirectionChange, onSearch]);
+      )}
+    </div>,
+    onSearch && typeof onSearch === 'function' && (
+      <DebouncedInput
+        className="mr-2"
+        key="SearchInput"
+        placeholder="Search"
+        handleChange={onSearch}
+      />
+    ),
+  ]);
 
   return (
     <>
@@ -86,11 +62,11 @@ export const ControlBar = ({
           />
         )}
 
-        {!isMobile && controls}
+        {...controlsGroup}
       </div>
       {drawerContainerRef.current &&
         createPortal(
-          <SidebarDrawer open={drawerOpen}>{controls}</SidebarDrawer>,
+          <SidebarDrawer open={drawerOpen}>{...controlsGroup}</SidebarDrawer>,
           drawerContainerRef.current
         )}
     </>

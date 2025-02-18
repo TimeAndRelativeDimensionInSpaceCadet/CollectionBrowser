@@ -1,7 +1,11 @@
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { useEffect, useState } from 'react';
 
-export const SidebarDrawer = ({ children, open }) => {
+export const SidebarDrawer = ({
+  children,
+  open,
+  onBackDropClick = () => {},
+}) => {
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -21,7 +25,7 @@ export const SidebarDrawer = ({ children, open }) => {
   }, [open]);
 
   return (
-    <div className={overlayClasses}>
+    <div className={overlayClasses} onClick={onBackDropClick}>
       <div className={drawerClasses}>
         <div className="p-3 size-full flex flex-col items-end overflow-hidden">
           {children}
