@@ -62,6 +62,7 @@ export const ControlBar = ({
       ),
       onSearch && typeof onSearch === 'function' && (
         <DebouncedInput
+          className="mr-2"
           key="SearchInput"
           placeholder="Search"
           handleChange={handleSearch}

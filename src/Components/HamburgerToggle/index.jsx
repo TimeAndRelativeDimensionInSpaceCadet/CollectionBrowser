@@ -3,7 +3,10 @@ import './index.scss';
 
 export const HamburgerToggle = ({ isToggled, handleToggle = () => {} }) => {
   const btnClasses = useClassConcat('toggle-btn', isToggled ? 'active' : '');
-  const burgerClasses = useClassConcat('hamburger', isToggled ? 'close' : '');
+  const burgerClasses = useClassConcat(
+    'hamburger children:bg-cyan-500',
+    isToggled ? 'close' : ''
+  );
   return (
     <div class={btnClasses} onClick={handleToggle}>
       <div class={burgerClasses}>
