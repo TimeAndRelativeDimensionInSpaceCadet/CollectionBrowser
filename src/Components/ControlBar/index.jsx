@@ -6,6 +6,7 @@ import { DebouncedInput } from '../DebouncedInput';
 import { SortBySelectInput } from '../SortBySelectInput';
 import { SidebarDrawer } from '../SidebarDrawer';
 import { HamburgerToggle } from '../HamburgerToggle';
+import { useBreakpoint, QueryType } from '../../Hooks/useBreakpoint';
 
 export const ControlBar = ({
   className,
@@ -20,6 +21,8 @@ export const ControlBar = ({
     'flex flex-row-reverse items-center max-w-full w-full p-3 bg-slate-700 z-10',
     className
   );
+
+  const isMobile = useBreakpoint(750, QueryType.LessThanEqualTo);
 
   const handleSortChange = useCallback(
     direction => {
@@ -45,7 +48,7 @@ export const ControlBar = ({
   const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
 
   const controls = useMemo(() => {
-    const result = [
+    const controls = [
       onSortDirectionChange && typeof onSortDirectionChange === 'function' && (
         <SortToggleButton
           key="SortDirectionToggle"
@@ -68,19 +71,22 @@ export const ControlBar = ({
           handleChange={handleSearch}
         />
       ),
-    ].reduce((a, b) => (b ? [...a, b] : a), []);
+    ];
 
-    return result;
+    return controls.reduce((a, b) => (b ? [...a, b] : a), []);
   }, [onSortByChange, onSortDirectionChange, onSearch]);
 
   return (
     <>
       <div className={classes}>
-        <HamburgerToggle
-          isToggled={drawerOpen}
-          handleToggle={handleToggleDrawer}
-        />
-        {controls}
+        {isMobile && (
+          <HamburgerToggle
+            isToggled={drawerOpen}
+            handleToggle={handleToggleDrawer}
+          />
+        )}
+
+        {!isMobile && controls}
       </div>
       {drawerContainerRef.current &&
         createPortal(

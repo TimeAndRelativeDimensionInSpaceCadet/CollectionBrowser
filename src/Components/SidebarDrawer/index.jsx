@@ -11,7 +11,7 @@ export const SidebarDrawer = ({ children, open }) => {
   );
 
   const drawerClasses = useClassConcat(
-    drawerOpen ? 'w-[75%]' : 'w-0',
+    drawerOpen ? 'w-[65%]' : 'w-0',
     'absolute transition-all right-0 h-full bg-slate-700 shadow-[rgba(0,0,0,0.5)_-3px_0px_6px_0px]'
   );
 

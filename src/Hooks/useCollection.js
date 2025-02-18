@@ -3,7 +3,6 @@ import { useInfiniteQuery, useQuery, useQueries } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
 
 export const useCollection = sortBy => {
-  //const [loading, setIsLoading] = useState(false);
   const [queryParams, setParams] = useState({ page: 1, sortBy });
 
   const updateParams = sortBy => {
