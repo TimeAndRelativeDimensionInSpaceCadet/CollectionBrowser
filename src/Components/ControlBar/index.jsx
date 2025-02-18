@@ -62,11 +62,12 @@ export const ControlBar = ({
           />
         )}
 
-        {...controlsGroup}
+        {!isMobile && controlsGroup}
       </div>
-      {drawerContainerRef.current &&
+      {isMobile &&
+        drawerContainerRef.current &&
         createPortal(
-          <SidebarDrawer open={drawerOpen}>{...controlsGroup}</SidebarDrawer>,
+          <SidebarDrawer open={drawerOpen}>{controlsGroup}</SidebarDrawer>,
           drawerContainerRef.current
         )}
     </>
