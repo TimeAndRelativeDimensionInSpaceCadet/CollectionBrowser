@@ -9,16 +9,6 @@ export const useCollectionSearch = (externalCollection = null) => {
     if (externalCollection) setCollection(externalCollection);
   }, [externalCollection]);
 
-  useEffect(() => {
-    if (currentQuery) handleSearchResults(currentQuery);
-  }, [collection, currentQuery]);
-
-  const getArtistsFromInfo = artists => artists.map(a => a.name).join('');
-
-  const getGenresFromInfo = genres => genres.join('');
-
-  const getSubGenresFromInfo = subGenres => subGenres.join('');
-
   const handleSearchResults = useCallback(
     query => {
       if (query === '') {
@@ -48,6 +38,16 @@ export const useCollectionSearch = (externalCollection = null) => {
     },
     [collection]
   );
+
+  useEffect(() => {
+    if (currentQuery) handleSearchResults(currentQuery);
+  }, [collection, currentQuery, handleSearchResults]);
+
+  const getArtistsFromInfo = artists => artists.map(a => a.name).join('');
+
+  const getGenresFromInfo = genres => genres.join('');
+
+  const getSubGenresFromInfo = subGenres => subGenres.join('');
 
   return {
     searchResults,

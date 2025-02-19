@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, useMemo } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SortToggleButton } from '../SortToggleButton';
@@ -25,32 +25,37 @@ export const ControlBar = ({
   const isMobile = useBreakpoint(750, QueryType.LessThanEqualTo);
   const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
 
-  const { current: controlsGroup } = useRef([
-    <div className="flex">
-      {onSortDirectionChange && typeof onSortDirectionChange === 'function' && (
-        <SortToggleButton
-          key="SortDirectionToggle"
-          handleSortDirectionChange={onSortDirectionChange}
-        />
-      )}
-      {onSortByChange && typeof onSortByChange === 'function' && (
-        <SortBySelectInput
-          key="SortByInput"
-          className="mr-2"
-          sortOptions={sortOptions}
-          onSortByChange={onSortByChange}
-        />
-      )}
-    </div>,
-    onSearch && typeof onSearch === 'function' && (
-      <DebouncedInput
-        className="mr-2"
-        key="SearchInput"
-        placeholder="Search"
-        handleChange={onSearch}
-      />
-    ),
-  ]);
+  const controlsGroup = useMemo(
+    () =>
+      [
+        <div key="sortcontainer" className="flex">
+          {onSortDirectionChange &&
+            typeof onSortDirectionChange === 'function' && (
+              <SortToggleButton
+                key="SortDirectionToggle"
+                handleSortDirectionChange={onSortDirectionChange}
+              />
+            )}
+          {onSortByChange && typeof onSortByChange === 'function' && (
+            <SortBySelectInput
+              key="SortByInput"
+              className="mr-2"
+              sortOptions={sortOptions}
+              onSortByChange={onSortByChange}
+            />
+          )}
+        </div>,
+        onSearch && typeof onSearch === 'function' && (
+          <DebouncedInput
+            className="mr-2"
+            key="SearchInput"
+            placeholder="Search"
+            handleChange={onSearch}
+          />
+        ),
+      ].reduce((prev, curr) => (curr ? [...prev, curr] : prev), []),
+    [onSearch, onSortByChange, onSortDirectionChange, sortOptions]
+  );
 
   return (
     <>

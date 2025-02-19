@@ -14,7 +14,7 @@ export const CollectionList = () => {
     controllableCollection,
     searchResults,
     handleSearchResults,
-    handleSearchToggle,
+    handleSortToggle,
   } = useCollectionControls(collection);
 
   const handleCollectionItemMap = useMemo(() => {
@@ -38,7 +38,7 @@ export const CollectionList = () => {
           <ControlBar
             drawerContainerRef={drawerRef}
             onSearch={handleSearchResults}
-            onSortDirectionChange={handleSearchToggle}
+            onSortDirectionChange={handleSortToggle}
             onSortByChange={updateParams}
           />
           <div ref={drawerRef} className="relative flex-1 overflow-hidden">

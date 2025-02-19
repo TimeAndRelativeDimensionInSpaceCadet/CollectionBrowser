@@ -12,11 +12,11 @@ export const HamburgerToggle = ({ isToggled, handleToggle = () => {} }) => {
   );
 
   return (
-    <div class={btnClasses} onClick={handleToggle}>
-      <div class={burgerClasses}>
-        <div class="patty"></div>
-        <div class="patty"></div>
-        <div class="patty"></div>
+    <div className={btnClasses} onClick={handleToggle}>
+      <div className={burgerClasses}>
+        <div className="patty"></div>
+        <div className="patty"></div>
+        <div className="patty"></div>
       </div>
     </div>
   );

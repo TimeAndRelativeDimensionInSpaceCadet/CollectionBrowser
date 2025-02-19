@@ -10,7 +10,7 @@ export const useCollection = sortBy => {
   };
 
   const fetchRecords = async ({ queryKey }) => {
-    const [_key, { page, sortBy }] = queryKey;
+    const [, { page, sortBy }] = queryKey;
     const { url, options } = makeCollectionRequest(page, sortBy);
 
     return await fetch(url, options).then(async response => {
@@ -84,7 +84,7 @@ export const useInfiniteCollection = () => {
   };
 
   const getNextPageNumber = lastPage => {
-    let { page: currentPage = 0, pages = 0 } = lastPage?.pagination;
+    let { page: currentPage = 0, pages = 0 } = lastPage?.pagination ?? {};
 
     return ++currentPage <= pages ? currentPage : null;
   };

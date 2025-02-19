@@ -1,33 +1,37 @@
 import { useEffect, useCallback, useState } from 'react';
-import { sortDirections } from '../Components/SortToggleButton';
+import { SortDirections } from '../Constants/SortDirections';
 
 export const useSort = collection => {
-  const [sortableCollection, setInternalCollection] = useState(collection);
-  const [sortDirection, setSortDirection] = useState(sortDirections.ascending);
+  const [sortableCollection, setInternalCollection] = useState();
+  const [sortDirection, setSortDirection] = useState(SortDirections.ascending);
 
   useEffect(() => {
     if (collection) setInternalCollection(collection);
   }, [collection]);
 
-  useEffect(() => {
-    if (collection)
-      setInternalCollection(prev => {
-        return sortDirection === sortDirections.descending
-          ? prev.toReversed()
-          : [...prev];
-      });
-  }, [collection]);
+  const reverseCollection = useCallback(
+    collection => {
+      return sortDirection === SortDirections.descending
+        ? collection.toReversed()
+        : [...collection];
+    },
+    [sortDirection]
+  );
 
-  const handleSearchToggle = useCallback(
+  useEffect(() => {
+    if (collection) setInternalCollection(reverseCollection);
+  }, [reverseCollection, collection]);
+
+  const handleSortToggle = useCallback(
     direction => {
       setSortDirection(direction);
-      setInternalCollection(prev => prev.toReversed());
+      setInternalCollection(reverseCollection);
     },
-    [sortableCollection]
+    [reverseCollection]
   );
 
   return {
     sortableCollection,
-    handleSearchToggle,
+    handleSortToggle,
   };
 };

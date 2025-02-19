@@ -1,18 +1,14 @@
 import { useState } from 'react';
 import { SortAscendingIcon, SortDescendingIcon } from '../../Icons';
 import { useClassConcat } from '../../Hooks/useClassConcat';
-
-export const sortDirections = {
-  ascending: 'asc',
-  descending: 'des',
-};
+import { SortDirections } from '../../Constants/SortDirections';
 
 export const SortToggleButton = ({ className, handleSortDirectionChange }) => {
-  const [sortDirection, setSortDirection] = useState(sortDirections.ascending);
+  const [sortDirection, setSortDirection] = useState(SortDirections.ascending);
   const classes = useClassConcat('w-auto', className);
 
   const toggleSortDirection = () => {
-    const { ascending, descending } = sortDirections;
+    const { ascending, descending } = SortDirections;
     const nextDirection = sortDirection === ascending ? descending : ascending;
     setSortDirection(nextDirection);
     handleSortDirectionChange?.(nextDirection);
@@ -21,10 +17,10 @@ export const SortToggleButton = ({ className, handleSortDirectionChange }) => {
   return (
     <div className={classes}>
       <button className="h-full p-3" onClick={toggleSortDirection}>
-        {sortDirection === sortDirections.ascending && (
+        {sortDirection === SortDirections.ascending && (
           <SortAscendingIcon className="fill-cyan-500 size-6" />
         )}
-        {sortDirection === sortDirections.descending && (
+        {sortDirection === SortDirections.descending && (
           <SortDescendingIcon className="fill-cyan-500 size-6" />
         )}
       </button>
