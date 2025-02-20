@@ -1,11 +1,9 @@
-import { useRef, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { useClassConcat } from '../../Hooks/useClassConcat';
-import { SortToggleButton } from '../SortToggleButton';
-import { DebouncedInput } from '../DebouncedInput';
-import { SortBySelectInput } from '../SortBySelectInput';
 import { SidebarDrawer } from '../SidebarDrawer';
 import { HamburgerToggle } from '../HamburgerToggle';
+import { ControlGroup } from './ControlGroup';
 import { useBreakpoint, QueryType } from '../../Hooks/useBreakpoint';
 
 export const ControlBar = ({
@@ -15,7 +13,6 @@ export const ControlBar = ({
   onSortDirectionChange,
   onSortByChange,
 }) => {
-  const { current: sortOptions } = useRef(['artist', 'title', 'year']);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const classes = useClassConcat(
     'flex flex-row-reverse items-center max-w-full w-full p-3 bg-slate-700 z-10',
@@ -26,35 +23,14 @@ export const ControlBar = ({
   const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
 
   const controlsGroup = useMemo(
-    () =>
-      [
-        <div key="sortcontainer" className="flex">
-          {onSortDirectionChange &&
-            typeof onSortDirectionChange === 'function' && (
-              <SortToggleButton
-                key="SortDirectionToggle"
-                handleSortDirectionChange={onSortDirectionChange}
-              />
-            )}
-          {onSortByChange && typeof onSortByChange === 'function' && (
-            <SortBySelectInput
-              key="SortByInput"
-              className="mr-2"
-              sortOptions={sortOptions}
-              onSortByChange={onSortByChange}
-            />
-          )}
-        </div>,
-        onSearch && typeof onSearch === 'function' && (
-          <DebouncedInput
-            className="mr-2"
-            key="SearchInput"
-            placeholder="Search"
-            handleChange={onSearch}
-          />
-        ),
-      ].reduce((prev, curr) => (curr ? [...prev, curr] : prev), []),
-    [onSearch, onSortByChange, onSortDirectionChange, sortOptions]
+    () => (
+      <ControlGroup
+        handleSearch={onSearch}
+        handleSortDirection={onSortDirectionChange}
+        handleSortType={onSortByChange}
+      />
+    ),
+    [onSearch, onSortByChange, onSortDirectionChange]
   );
 
   return (
