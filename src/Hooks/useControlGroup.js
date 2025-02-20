@@ -1,27 +1,35 @@
-import { useReducer, useRef, createContext } from 'react';
+import { useReducer, useRef, createContext, useContext } from 'react';
 import { SortDirections } from '../Constants/SortDirections';
 
-export const useControlGroup = () => {
+export const ControlContext = createContext(null);
+
+export const ControlStateProps = {
+  search: 'search',
+  sortType: 'sortType',
+  sortDirection: 'sortDirection',
+};
+
+export const useControlState = () => {
   const { current: initialState } = useRef({
-    searchValue: '',
-    sortType: 'artist',
-    sortDirection: SortDirections.ascending,
+    [ControlStateProps.search]: '',
+    [ControlStateProps.sortType]: 'artist',
+    [ControlStateProps.sortDirection]: SortDirections.ascending,
   });
 
   const reduceControls = (state, action) => {
-    switch (action.type) {
-      case 'search':
-        return { ...state, searchValue: action.payload };
-      case 'sortType':
-        return { ...state, sortType: action.payload };
-      case 'sortDirection':
-        return { ...state, sortDirection: action.payload };
-    }
+    const { type, payload } = action;
+
+    return {
+      ...state,
+      [type]: payload,
+    };
   };
 
   const controlState = useReducer(reduceControls, initialState);
 
-  const ControlContext = createContext(controlState);
-  
-  return ControlContext;
+  return controlState;
+};
+
+export const useControlContext = () => {
+  return useContext(ControlContext);
 };

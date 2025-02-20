@@ -1,5 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useClassConcat } from '../../Hooks/useClassConcat';
+import {
+  ControlStateProps,
+  useControlContext,
+} from '../../Hooks/useControlGroup';
 import { debounce } from '../../Util/debounce';
 
 export const DebouncedInput = ({
@@ -8,7 +12,10 @@ export const DebouncedInput = ({
   handleChange,
   debounceTimer = 500,
 }) => {
-  const [searchText, setSearchText] = useState('');
+  const {
+    state: { search: searchText },
+    dispatch: setSearchText,
+  } = useControlContext();
   const classNames = useClassConcat(
     'transition-all w-[15ch] focus-within:w-ch-20 relative',
     className
@@ -20,7 +27,7 @@ export const DebouncedInput = ({
   );
 
   const handleTextChange = ({ target: { value } }) => {
-    setSearchText(value);
+    setSearchText({ type: ControlStateProps.search, payload: value });
     handleDebouncedSearch(value);
   };
 

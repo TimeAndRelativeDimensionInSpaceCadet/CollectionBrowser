@@ -40,7 +40,7 @@ export const useCollectionSearch = (externalCollection = null) => {
   );
 
   useEffect(() => {
-    if (currentQuery) handleSearchResults(currentQuery);
+    if (collection && currentQuery) handleSearchResults(currentQuery);
   }, [collection, currentQuery, handleSearchResults]);
 
   const getArtistsFromInfo = artists => artists.map(a => a.name).join('');

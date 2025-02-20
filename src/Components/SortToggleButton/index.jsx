@@ -1,16 +1,25 @@
-import { useState } from 'react';
+import {
+  useControlContext,
+  ControlStateProps,
+} from '../../Hooks/useControlGroup';
 import { SortAscendingIcon, SortDescendingIcon } from '../../Icons';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SortDirections } from '../../Constants/SortDirections';
 
 export const SortToggleButton = ({ className, handleSortDirectionChange }) => {
-  const [sortDirection, setSortDirection] = useState(SortDirections.ascending);
+  const {
+    state: { sortDirection },
+    dispatch: setSortDirection,
+  } = useControlContext();
   const classes = useClassConcat('w-auto', className);
 
   const toggleSortDirection = () => {
     const { ascending, descending } = SortDirections;
     const nextDirection = sortDirection === ascending ? descending : ascending;
-    setSortDirection(nextDirection);
+    setSortDirection({
+      type: ControlStateProps.sortDirection,
+      payload: nextDirection,
+    });
     handleSortDirectionChange?.(nextDirection);
   };
 

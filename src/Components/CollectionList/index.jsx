@@ -6,7 +6,8 @@ import { ControlBar } from '../ControlBar';
 import { LoadingSpinner } from '../LoadingSpinner';
 
 export const CollectionList = () => {
-  const { collection, loading, error, updateParams } = useCollection('artist');
+  const { collection, loading, error, updateParams } = useCollection();
+
   const collectionContainer = useRef(null);
   const drawerRef = useRef(null);
 

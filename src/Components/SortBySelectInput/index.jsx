@@ -1,12 +1,19 @@
 import { useMemo, useState, useCallback } from 'react';
 import { useClassConcat } from '../../Hooks/useClassConcat';
+import {
+  ControlStateProps,
+  useControlContext,
+} from '../../Hooks/useControlGroup';
 
 export const SortBySelectInput = ({
   className,
   sortOptions,
   onSortByChange,
 }) => {
-  const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
+  const {
+    state: { sortType },
+    dispatch,
+  } = useControlContext();
   const [open, setOpen] = useState(false);
   const classes = useClassConcat(`relative w-auto`, className);
 
@@ -17,7 +24,7 @@ export const SortBySelectInput = ({
 
   const handleSortByChange = useCallback(
     value => {
-      setSelectedSort(value);
+      dispatch({ payload: value, type: ControlStateProps.sortType });
       onSortByChange?.(value);
       handleClick();
     },
@@ -36,7 +43,7 @@ export const SortBySelectInput = ({
       return (
         <div
           className={`${
-            selectedSort == option ? 'bg-slate-600 ' : 'hover:bg-slate-600 '
+            sortType == option ? 'bg-slate-600 ' : 'hover:bg-slate-600 '
           }p-2 cursor-pointer select-none`}
           key={index}
           onClick={handleSelect(option)}
@@ -46,7 +53,7 @@ export const SortBySelectInput = ({
       );
     });
     return mappedOptions;
-  }, [sortOptions, selectedSort, handleSelect]);
+  }, [sortOptions, sortType, handleSelect]);
 
   const handleClick = () => {
     setOpen(prev => !prev);
@@ -78,7 +85,7 @@ export const SortBySelectInput = ({
           className="h-full min-w-[var(--minCharLength)] select-none"
           style={{ '--minCharLength': getMinCharacterLength }}
         >
-          {selectedSort.toTitleCase()}
+          {sortType.toTitleCase()}
         </div>
       </div>
       <div

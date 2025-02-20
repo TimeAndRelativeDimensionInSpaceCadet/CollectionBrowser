@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useQuery, useQueries } from '@tanstack/react-query';
 import { makeCollectionRequest } from '../Util/apiUtil';
 
-export const useCollection = sortBy => {
-  const [queryParams, setParams] = useState({ page: 1, sortBy });
+export const useCollection = () => {
+  const [queryParams, setParams] = useState({
+    page: 1,
+    sortBy: 'artist',
+  });
 
   const updateParams = sortBy => {
     setParams(prev => ({ ...prev, sortBy }));

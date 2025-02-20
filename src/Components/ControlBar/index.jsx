@@ -1,10 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import { SidebarDrawer } from '../SidebarDrawer';
 import { HamburgerToggle } from '../HamburgerToggle';
 import { ControlGroup } from './ControlGroup';
 import { useBreakpoint, QueryType } from '../../Hooks/useBreakpoint';
+import { useControlState } from '../../Hooks/useControlGroup';
+import { ControlContext } from '../../Hooks/useControlGroup';
 
 export const ControlBar = ({
   className,
@@ -13,6 +15,7 @@ export const ControlBar = ({
   onSortDirectionChange,
   onSortByChange,
 }) => {
+  const [state, dispatch] = useControlState();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const classes = useClassConcat(
     'flex flex-row-reverse items-center max-w-full w-full p-3 bg-slate-700 z-10',
@@ -22,9 +25,10 @@ export const ControlBar = ({
   const isMobile = useBreakpoint(750, QueryType.LessThanEqualTo);
   const handleToggleDrawer = () => setDrawerOpen(prev => !prev);
 
-  const controlsGroup = useMemo(
-    () => (
+  const controlsGroup = useCallback(
+    (isDrawer = false) => (
       <ControlGroup
+        isDrawer={isDrawer}
         handleSearch={onSearch}
         handleSortDirection={onSortDirectionChange}
         handleSortType={onSortByChange}
@@ -34,7 +38,7 @@ export const ControlBar = ({
   );
 
   return (
-    <>
+    <ControlContext.Provider value={{ state, dispatch }}>
       <div className={classes}>
         {isMobile && (
           <HamburgerToggle
@@ -43,14 +47,16 @@ export const ControlBar = ({
           />
         )}
 
-        {!isMobile && controlsGroup}
+        {!isMobile && controlsGroup()}
       </div>
       {isMobile &&
         drawerContainerRef.current &&
         createPortal(
-          <SidebarDrawer open={drawerOpen}>{controlsGroup}</SidebarDrawer>,
+          <SidebarDrawer open={drawerOpen}>
+            {controlsGroup(true)}
+          </SidebarDrawer>,
           drawerContainerRef.current
         )}
-    </>
+    </ControlContext.Provider>
   );
 };
