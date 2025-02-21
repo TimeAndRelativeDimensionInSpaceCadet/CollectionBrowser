@@ -10,7 +10,7 @@ export const SidebarDrawer = ({
     open ? 'visible' : 'hidden'
   );
   const drawerClasses = useClassConcat(
-    'absolute transition-all right-0 top-0 h-full bg-slate-700 shadow-[rgba(0,0,0,0.5)_-3px_0px_6px_0px] z-20',
+    'absolute transition-all duration-[250ms] right-0 top-0 h-full bg-slate-700 shadow-[rgba(0,0,0,0.5)_-3px_0px_6px_0px] z-20',
     open ? ' w-[65%]' : ' w-0'
   );
 
