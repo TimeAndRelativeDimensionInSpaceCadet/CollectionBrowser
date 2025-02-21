@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useRef, useCallback, useEffect } from 'react';
 import { useClassConcat } from '../../Hooks/useClassConcat';
 import {
   ControlStateProps,
@@ -16,11 +16,14 @@ export const SortBySelectInput = ({
   } = useControlContext();
   const [open, setOpen] = useState(false);
   const classes = useClassConcat(`relative w-auto`, className);
+  const selector = useRef(null);
 
   const getMinCharacterLength = useMemo(
     () => `${sortOptions.reduce((a, b) => Math.max(a, b.length), 0)}ch`,
     [sortOptions]
   );
+
+  const handleClick = () => setOpen(prev => !prev);
 
   const handleSortByChange = useCallback(
     value => {
@@ -39,12 +42,12 @@ export const SortBySelectInput = ({
   );
 
   const options = useMemo(() => {
-    const mappedOptions = sortOptions?.map((option, index) => {
+    return sortOptions?.map((option, index) => {
       return (
         <div
           className={`${
             sortType == option ? 'bg-slate-600 ' : 'hover:bg-slate-600 '
-          }p-2 cursor-pointer select-none`}
+          }p-2 cursor-pointer select-none first:rounded-t-md last:rounded-b-md`}
           key={index}
           onClick={handleSelect(option)}
         >
@@ -52,15 +55,24 @@ export const SortBySelectInput = ({
         </div>
       );
     });
-    return mappedOptions;
   }, [sortOptions, sortType, handleSelect]);
 
-  const handleClick = () => {
-    setOpen(prev => !prev);
-  };
+  const onClickAway = useCallback(
+    ({ target }) => {
+      open && !selector.current.contains(target) && handleClick();
+    },
+    [open, selector]
+  );
+
+  useEffect(() => {
+    document.addEventListener('click', onClickAway);
+    return () => {
+      document.removeEventListener('click', onClickAway);
+    };
+  }, [onClickAway]);
 
   return (
-    <div className={classes}>
+    <div ref={selector} className={classes}>
       <div
         className="flex pl-3 pt-3 pb-3 dark-theme-bg pr-12 rounded-md cursor-pointer"
         onClick={handleClick}
