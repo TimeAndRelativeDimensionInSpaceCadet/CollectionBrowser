@@ -37,7 +37,8 @@ export default {
           marginTop: '-5rem',
         },
         '.dark-theme-bg': {
-          backgroundColor: 'field',
+          colorScheme: 'dark',
+          backgroundColor: 'Canvas',
         },
       });
       addVariant('all-descendents', '& *');
