@@ -7,16 +7,15 @@ import { LoadingSpinner } from '../LoadingSpinner';
 
 export const CollectionList = () => {
   const { collection, loading, error, updateParams } = useCollection();
-
-  const collectionContainer = useRef(null);
-  const drawerRef = useRef(null);
-
   const {
     controllableCollection,
     searchResults,
     handleSearchResults,
     handleSortToggle,
   } = useCollectionControls(collection);
+
+  const collectionContainer = useRef(null);
+  const drawerRef = useRef(null);
 
   const handleCollectionItemMap = useMemo(() => {
     return controllableCollection
