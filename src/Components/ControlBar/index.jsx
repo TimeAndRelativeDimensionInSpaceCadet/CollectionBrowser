@@ -7,6 +7,8 @@ import { ControlGroup } from './ControlGroup';
 import { useBreakpoint, QueryType } from '../../Hooks/useBreakpoint';
 import { useControlState } from '../../Hooks/useControlGroup';
 import { ControlContext } from '../../Hooks/useControlGroup';
+import { ShuffleIcon } from '@radix-ui/react-icons';
+import AlbumToast from '../AlbumToast';
 
 export const ControlBar = ({
   className,
@@ -14,6 +16,7 @@ export const ControlBar = ({
   onSearch,
   onSortDirectionChange,
   onSortByChange,
+  onRandom,
 }) => {
   const [state, dispatch] = useControlState();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -48,6 +51,8 @@ export const ControlBar = ({
         )}
 
         {!isMobile && controlsGroup()}
+
+        <AlbumToast setAlbum={onRandom} />
       </div>
       {isMobile &&
         drawerContainerRef.current &&

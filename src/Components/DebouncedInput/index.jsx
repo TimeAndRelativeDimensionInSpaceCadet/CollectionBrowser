@@ -51,7 +51,7 @@ export const DebouncedInput = ({
       </div>
       <input
         id="debounced-input"
-        className="max-w-full pl-12 pb-3 pt-3 pr-3 rounded-md"
+        className="max-w-full pl-12 pb-3 pt-3 pr-3 rounded-md dark-theme-bg"
         type="text"
         value={searchText}
         placeholder={placeholder}

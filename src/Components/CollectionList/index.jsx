@@ -12,6 +12,7 @@ export const CollectionList = () => {
     searchResults,
     handleSearchResults,
     handleSortToggle,
+    handleGenerateRandom,
   } = useCollectionControls(collection);
 
   const collectionContainer = useRef(null);
@@ -40,6 +41,7 @@ export const CollectionList = () => {
             onSearch={handleSearchResults}
             onSortDirectionChange={handleSortToggle}
             onSortByChange={updateParams}
+            onRandom={handleGenerateRandom}
           />
           <div ref={drawerRef} className="relative flex-1 overflow-hidden">
             {!loading && (
