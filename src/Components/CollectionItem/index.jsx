@@ -1,5 +1,6 @@
 import { useRef, useMemo } from 'react';
 import { ImageWithSkeleton } from '../ImageWithSkeleton';
+import { formatArtistName } from '../../Util/formatArtistName';
 
 export const CollectionItem = ({ itemInfo, containerRef = null }) => {
   const card = useRef(null);
@@ -26,16 +27,8 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
     }
   };
 
-  const formatArtist = useMemo(
-    () =>
-      itemInfo.artists
-        .map(e => e.name.replace(new RegExp(/\W?\(\d+\)/g), ''))
-        .join(', '),
-    [itemInfo]
-  );
-
+  const formatArtists = useMemo(() => formatArtistName(itemInfo), [itemInfo]);
   const formatGenres = useMemo(() => itemInfo.genres.join(', '), [itemInfo]);
-
   const formatSubGenres = useMemo(() => itemInfo.styles.join(', '), [itemInfo]);
 
   return (
@@ -52,7 +45,7 @@ export const CollectionItem = ({ itemInfo, containerRef = null }) => {
               {itemInfo.title}
             </div>
             <div className="my-1">by</div>
-            {formatArtist}
+            {formatArtists}
           </div>
           <div className="pb-8 flex flex-col">
             <div>{formatGenres}</div>

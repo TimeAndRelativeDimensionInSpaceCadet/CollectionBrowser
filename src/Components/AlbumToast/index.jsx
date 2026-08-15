@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Toast } from 'radix-ui';
 import { ShuffleIcon, Cross2Icon } from '@radix-ui/react-icons';
 import './index.scss';
+import { formatArtistName } from '../../Util/formatArtistName';
 
 const AlbumToast = ({ setAlbum = () => {}, isLoading = false }) => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,13 @@ const AlbumToast = ({ setAlbum = () => {}, isLoading = false }) => {
     return () => clearTimeout(timerRef.current);
   }, [isLoading]);
 
+  const artistName = useMemo(() => {
+    if (Object.keys(currentRecord.current).length > 1)
+      return formatArtistName(currentRecord.current);
+
+    return undefined;
+  }, [currentRecord.current]);
+
   return (
     <Toast.Provider duration={10000}>
       <button
@@ -30,7 +38,7 @@ const AlbumToast = ({ setAlbum = () => {}, isLoading = false }) => {
 
           timerRef.current = window.setTimeout(() => {
             currentRecord.current = getDetails(album);
-            console.log(currentRecord.current);
+
             setOpen(true);
           }, 100);
         }}
@@ -44,7 +52,7 @@ const AlbumToast = ({ setAlbum = () => {}, isLoading = false }) => {
           <div className="font-semibold">{currentRecord?.current?.title}</div>
           <div>
             {'by '}
-            {currentRecord?.current?.artists?.map(e => e.name).join(' ')}
+            {artistName}
           </div>
         </Toast.Title>
         <Toast.Description asChild>
