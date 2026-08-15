@@ -12,6 +12,7 @@ import AlbumToast from '../AlbumToast';
 
 export const ControlBar = ({
   className,
+  isLoading,
   drawerContainerRef,
   onSearch,
   onSortDirectionChange,
@@ -31,13 +32,14 @@ export const ControlBar = ({
   const controlsGroup = useCallback(
     (isDrawer = false) => (
       <ControlGroup
+        isLoading={isLoading}
         isDrawer={isDrawer}
         handleSearch={onSearch}
         handleSortDirection={onSortDirectionChange}
         handleSortType={onSortByChange}
       />
     ),
-    [onSearch, onSortByChange, onSortDirectionChange]
+    [onSearch, onSortByChange, onSortDirectionChange, isLoading]
   );
 
   return (
@@ -52,7 +54,7 @@ export const ControlBar = ({
 
         {!isMobile && controlsGroup()}
 
-        <AlbumToast setAlbum={onRandom} />
+        <AlbumToast isLoading={isLoading} setAlbum={onRandom} />
       </div>
       {isMobile &&
         drawerContainerRef.current &&

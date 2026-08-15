@@ -42,6 +42,7 @@ export const CollectionList = () => {
             onSortDirectionChange={handleSortToggle}
             onSortByChange={updateParams}
             onRandom={handleGenerateRandom}
+            isLoading={loading}
           />
           <div ref={drawerRef} className="relative flex-1 overflow-hidden">
             {!loading && (

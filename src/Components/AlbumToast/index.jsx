@@ -1,39 +1,64 @@
-import { useState, useCallback, useREf } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Toast } from 'radix-ui';
-import { ShuffleIcon } from '@radix-ui/react-icons';
+import { ShuffleIcon, Cross2Icon } from '@radix-ui/react-icons';
 import './index.scss';
 
-const AlbumToast = ({ setAlbum = () => {} }) => {
-  const [open, setOpen] = React.useState(false);
-  const recordRef = React.useRef({});
-  const timerRef = React.useRef(0);
+const AlbumToast = ({ setAlbum = () => {}, isLoading = false }) => {
+  const [open, setOpen] = useState(false);
+  const currentRecord = useRef({});
+  const timerRef = useRef(0);
 
-  const getDetails = React.useCallback(() => {
-    const { basic_information: basicInformation = {} } = recordRef?.current;
+  const getDetails = albumInfo => {
+    const { basic_information: basicInformation = {} } = albumInfo;
 
     return basicInformation;
-  }, [recordRef]);
+  };
+
+  useEffect(() => {
+    if (isLoading) setOpen(false);
+    return () => clearTimeout(timerRef.current);
+  }, [isLoading]);
 
   return (
     <Toast.Provider duration={10000}>
       <button
-        className="mr-2 p-3 rounded-md dark-theme-bg flex flex-row items-center"
+        className="p-3 rounded-md dark-theme-bg flex flex-row items-center hover:cursor-pointer mr-auto select-none"
         onClick={() => {
-          recordRef.current = setAlbum();
+          setOpen(false);
 
-          setOpen(true);
-          console.log(getDetails());
+          const album = setAlbum();
+
+          timerRef.current = window.setTimeout(() => {
+            currentRecord.current = getDetails(album);
+            console.log(currentRecord.current);
+            setOpen(true);
+          }, 100);
         }}
+        disabled={isLoading}
       >
         <ShuffleIcon className="mr-2" /> Get Random
       </button>
 
       <Toast.Root className="ToastRoot" open={open} onOpenChange={setOpen}>
-        <Toast.Title className="text-black">{getDetails()?.title}</Toast.Title>
-        <Toast.Description asChild></Toast.Description>
-        <Toast.Action className="ToastAction" asChild altText="dismiss">
-          <button className="text-black">dismiss</button>
-        </Toast.Action>
+        <Toast.Title className="text-black">
+          <div className="font-semibold">{currentRecord?.current?.title}</div>
+          <div>
+            {'by '}
+            {currentRecord?.current?.artists?.map(e => e.name).join(' ')}
+          </div>
+        </Toast.Title>
+        <Toast.Description asChild>
+          <img
+            className="pt-2"
+            src={currentRecord?.current?.cover_image}
+            alt="album art"
+          />
+        </Toast.Description>
+        <Toast.Close className="ToastAction" asChild>
+          <button className="text-black hover:cursor-pointer">
+            <Cross2Icon />
+          </button>
+        </Toast.Close>
       </Toast.Root>
       <Toast.Viewport className="ToastViewport" />
     </Toast.Provider>

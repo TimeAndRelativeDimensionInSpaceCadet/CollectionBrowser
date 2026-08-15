@@ -12,7 +12,7 @@ export const ControlGroup = ({
   const { current: sortOptions } = useRef(['artist', 'title', 'year']);
   const controlsGroup = useMemo(() => {
     const controls = [
-      <div key="sortcontainer" className="flex">
+      <div key="sortcontainer" className="flex content-center">
         {handleSortDirection && typeof handleSortDirection === 'function' && (
           <SortToggleButton
             key="SortDirectionToggle"

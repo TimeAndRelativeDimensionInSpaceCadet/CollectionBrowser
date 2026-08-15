@@ -11,7 +11,7 @@ export const SortToggleButton = ({ className, handleSortDirectionChange }) => {
     state: { sortDirection },
     dispatch: setSortDirection,
   } = useControlContext();
-  const classes = useClassConcat('w-auto', className);
+  const classes = useClassConcat('', className);
 
   const toggleSortDirection = () => {
     const { ascending, descending } = SortDirections;
@@ -25,7 +25,7 @@ export const SortToggleButton = ({ className, handleSortDirectionChange }) => {
 
   return (
     <div className={classes}>
-      <button className="h-full p-3" onClick={toggleSortDirection}>
+      <button className="p-3" onClick={toggleSortDirection}>
         {sortDirection === SortDirections.ascending && (
           <SortAscendingIcon className="fill-cyan-500 size-6" />
         )}

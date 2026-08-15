@@ -10,8 +10,6 @@ export const useCollectionControls = collection => {
   const handleGenerateRandom = useCallback(() => {
     const index = Math.floor(Math.random() * collection.length);
 
-    console.log([...collection][index]);
-
     return [...collection][index];
   }, [collection]);
 
